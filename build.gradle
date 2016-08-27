@@ -1,0 +1,23 @@
+allprojects {
+  group 'com.holi.junit4'
+  version '1.0'
+}
+
+
+subprojects {
+  apply plugin: 'java'
+  def jdkVersion = 1.8
+  sourceCompatability = jdkVersion
+  targetCompatability = jdkVersion
+
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+  }
+}
+
+
