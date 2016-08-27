@@ -7,8 +7,8 @@ allprojects {
 subprojects {
   apply plugin: 'java'
   def jdkVersion = 1.8
-  sourceCompatability = jdkVersion
-  targetCompatability = jdkVersion
+  sourceCompatibility = jdkVersion
+  sourceCompatibility = jdkVersion
 
   repositories {
     mavenCentral()
