@@ -6,8 +6,10 @@
 ```ftl
 <@context name="something">
   <@test name="test some feature">
-    <@assert that="var">value</@assert>
-    <@assert>${var=='value'}</@assert>
+    <#assign foo="bar">
+    
+    <@assert expected='bar' actual=foo/>
+    <@assert expected=foo=='bar'/>
     <@assert expected="java.lang.Exception">${invalid_expression}</@assert>
   </@test>
 </@context> 
