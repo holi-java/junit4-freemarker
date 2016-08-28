@@ -4,9 +4,11 @@
 ## Test Syntax
 
 ```ftl
-<@test name="test something">
-  <@assert that="var">value</@assert>
-  <@assert>${var=='value'}</@assert>
-  <@assert expected="java.lang.Exception">${exception.message=='error message'}</@assert>
-</@test>
+<@context name="something">
+  <@test name="test some feature">
+    <@assert that="var">value</@assert>
+    <@assert>${var=='value'}</@assert>
+    <@assert expected="java.lang.Exception">${invalid_expression}</@assert>
+  </@test>
+</@context> 
 ```
