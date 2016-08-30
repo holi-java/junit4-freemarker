@@ -1,6 +1,5 @@
 package com.holi.junit.freemarker.internal.expectation;
 
-import com.holi.junit.freemarker.ExpectationContext;
 import com.holi.junit.freemarker.internal.expectation.context.ExpectationContexts;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateModel;

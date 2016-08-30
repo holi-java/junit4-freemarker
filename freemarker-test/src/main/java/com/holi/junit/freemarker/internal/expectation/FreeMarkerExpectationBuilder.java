@@ -1,8 +1,7 @@
 package com.holi.junit.freemarker.internal.expectation;
 
-import com.holi.junit.freemarker.Expectation;
-import com.holi.junit.freemarker.ExpectationBuilder;
-import com.holi.junit.freemarker.ExpectationContext;
+import com.holi.junit.freemarker.internal.blocks.Expectation;
+import com.holi.junit.freemarker.internal.blocks.ExpectationBuilder;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import java.util.ArrayList;

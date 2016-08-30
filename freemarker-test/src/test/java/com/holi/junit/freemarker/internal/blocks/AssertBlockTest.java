@@ -1,5 +1,8 @@
-package com.holi.junit.freemarker;
+package com.holi.junit.freemarker.internal.blocks;
 
+import com.holi.junit.freemarker.internal.blocks.AssertBlock;
+import com.holi.junit.freemarker.internal.blocks.Expectation;
+import com.holi.junit.freemarker.internal.blocks.ExpectationBuilder;
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
 import freemarker.template.Template;

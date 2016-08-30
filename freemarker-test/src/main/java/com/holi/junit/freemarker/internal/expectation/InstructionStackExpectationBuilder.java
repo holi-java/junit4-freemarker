@@ -1,7 +1,7 @@
 package com.holi.junit.freemarker.internal.expectation;
 
-import com.holi.junit.freemarker.Expectation;
-import com.holi.junit.freemarker.ExpectationBuilder;
+import com.holi.junit.freemarker.internal.blocks.Expectation;
+import com.holi.junit.freemarker.internal.blocks.ExpectationBuilder;
 import freemarker.core.Environment;
 import freemarker.core.TemplateElement;
 import freemarker.core._CoreAPI;
@@ -24,6 +24,10 @@ public class InstructionStackExpectationBuilder implements ExpectationBuilder {
   }
 
   @Override public Expectation create(final Map params, final TemplateDirectiveBody body) throws TemplateException {
+    return dumpInstructionStackWhenExpectationFails(params, body);
+  }
+
+  private Expectation dumpInstructionStackWhenExpectationFails(final Map params, final TemplateDirectiveBody body) {
     return new Expectation() {
       @Override public void checking() throws TemplateException, IOException {
         try {

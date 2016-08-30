@@ -1,4 +1,4 @@
-package com.holi.junit.freemarker;
+package com.holi.junit.freemarker.internal.blocks;
 
 import freemarker.template.TemplateException;
 import java.io.IOException;

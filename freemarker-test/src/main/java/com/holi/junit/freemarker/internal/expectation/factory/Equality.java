@@ -1,7 +1,7 @@
 package com.holi.junit.freemarker.internal.expectation.factory;
 
-import com.holi.junit.freemarker.Expectation;
-import com.holi.junit.freemarker.ExpectationContext;
+import com.holi.junit.freemarker.internal.blocks.Expectation;
+import com.holi.junit.freemarker.internal.expectation.ExpectationContext;
 import freemarker.template.TemplateException;
 import java.io.IOException;
 

@@ -1,5 +1,6 @@
 package com.holi.junit.freemarker;
 
+import com.holi.junit.freemarker.internal.blocks.AssertBlock;
 import com.holi.junit.freemarker.internal.expectation.FreeMarkerExpectationBuilder;
 import com.holi.junit.freemarker.internal.expectation.InstructionStackExpectationBuilder;
 import freemarker.core.Environment;

@@ -1,6 +1,6 @@
 package com.holi.junit.freemarker.internal.expectation.context;
 
-import com.holi.junit.freemarker.ExpectationContext;
+import com.holi.junit.freemarker.internal.expectation.ExpectationContext;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateBooleanModel;

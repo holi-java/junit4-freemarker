@@ -1,6 +1,6 @@
 package com.holi.junit.freemarker.internal.expectation;
 
-import com.holi.junit.freemarker.Expectation;
+import com.holi.junit.freemarker.internal.blocks.Expectation;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import java.io.IOException;

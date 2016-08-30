@@ -1,7 +1,6 @@
 package com.holi.junit.freemarker.internal.expectation;
 
-import com.holi.junit.freemarker.Expectation;
-import com.holi.junit.freemarker.ExpectationContext;
+import com.holi.junit.freemarker.internal.blocks.Expectation;
 
 /**
  * Created by selonj on 16-8-30.
