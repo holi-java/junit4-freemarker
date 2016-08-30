@@ -10,7 +10,7 @@
     
     <@assert expected='bar' actual=foo/>
     <@assert expected=foo=='bar'/>
-    <@assert expected="java.lang.Exception">${invalid_expression}</@assert>
+    <@assert expected=foo>bar</@assert>
   </@test>
 </@context> 
 ```

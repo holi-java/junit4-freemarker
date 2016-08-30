@@ -6,7 +6,7 @@ allprojects {
 
 subprojects {
   apply plugin: 'java'
-  def jdkVersion = 1.8
+  def jdkVersion = 1.7
   sourceCompatibility = jdkVersion
   sourceCompatibility = jdkVersion
 
