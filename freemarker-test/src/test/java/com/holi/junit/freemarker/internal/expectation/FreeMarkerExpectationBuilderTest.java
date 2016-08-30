@@ -1,4 +1,4 @@
-package com.holi.junit.freemarker.expectation;
+package com.holi.junit.freemarker.internal.expectation;
 
 import com.holi.junit.freemarker.Expectation;
 import freemarker.template.TemplateDirectiveBody;
@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.Writer;
 import org.junit.Test;
 
-import static com.holi.junit.freemarker.expectation.Variables.actualValue;
-import static com.holi.junit.freemarker.expectation.Variables.expectedValue;
-import static com.holi.junit.freemarker.expectation.Variables.with;
+import static com.holi.junit.freemarker.internal.expectation.Variables.actualValue;
+import static com.holi.junit.freemarker.internal.expectation.Variables.expectedValue;
+import static com.holi.junit.freemarker.internal.expectation.Variables.with;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;

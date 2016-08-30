@@ -1,7 +1,7 @@
 package com.holi.junit.freemarker;
 
-import com.holi.junit.freemarker.expectation.FreeMarkerExpectationBuilder;
-import com.holi.junit.freemarker.expectation.InstructionStackExpectationBuilder;
+import com.holi.junit.freemarker.internal.expectation.FreeMarkerExpectationBuilder;
+import com.holi.junit.freemarker.internal.expectation.InstructionStackExpectationBuilder;
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
 import freemarker.template.Template;

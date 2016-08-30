@@ -1,4 +1,4 @@
-package com.holi.junit.freemarker.expectation;
+package com.holi.junit.freemarker.internal.expectation;
 
 import com.holi.junit.freemarker.Expectation;
 import com.holi.junit.freemarker.ExpectationBuilder;
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.holi.junit.freemarker.expectation.context.ExpectationContexts.createExpectationContext;
-import static com.holi.junit.freemarker.expectation.factory.ExpectationFactories.createBodyEqualityExpectationFactory;
-import static com.holi.junit.freemarker.expectation.factory.ExpectationFactories.createEqualityExpectationFactory;
-import static com.holi.junit.freemarker.expectation.factory.ExpectationFactories.createPredicationExpectationFactory;
+import static com.holi.junit.freemarker.internal.expectation.context.ExpectationContexts.createExpectationContext;
+import static com.holi.junit.freemarker.internal.expectation.factory.ExpectationFactories.createBodyEqualityExpectationFactory;
+import static com.holi.junit.freemarker.internal.expectation.factory.ExpectationFactories.createEqualityExpectationFactory;
+import static com.holi.junit.freemarker.internal.expectation.factory.ExpectationFactories.createPredicationExpectationFactory;
 
 /**
  * Created by selonj on 16-8-30.

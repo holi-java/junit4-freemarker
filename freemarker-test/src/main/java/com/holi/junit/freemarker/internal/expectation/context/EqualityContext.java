@@ -1,4 +1,4 @@
-package com.holi.junit.freemarker.expectation.context;
+package com.holi.junit.freemarker.internal.expectation.context;
 
 import com.holi.junit.freemarker.ExpectationContext;
 import freemarker.ext.util.WrapperTemplateModel;
@@ -56,6 +56,7 @@ class EqualityContext implements ExpectationContext {
     return unwrap(params.get(name));
   }
 
+  //todo:introduce which ?.unwrap because the <@test> will use it too
   private Object unwrap(Object value) throws TemplateModelException {
     if (value == null) return null;
     if (value instanceof WrapperTemplateModel) return ((WrapperTemplateModel) value).getWrappedObject();
@@ -95,9 +96,5 @@ class EqualityContext implements ExpectationContext {
     ArrayList<Object> list = new ArrayList<>();
     while (it.hasNext()) list.add(unwrap(it.next()));
     return list;
-  }
-
-  public boolean hasActualValue() {
-    return params.containsKey(PARAM_ACTUAL);
   }
 }

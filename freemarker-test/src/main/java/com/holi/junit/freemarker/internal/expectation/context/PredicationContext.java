@@ -1,4 +1,4 @@
-package com.holi.junit.freemarker.expectation.context;
+package com.holi.junit.freemarker.internal.expectation.context;
 
 import com.holi.junit.freemarker.ExpectationContext;
 import freemarker.template.TemplateModelException;

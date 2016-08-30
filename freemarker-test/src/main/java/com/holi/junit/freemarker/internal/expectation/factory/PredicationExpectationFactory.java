@@ -1,12 +1,10 @@
-package com.holi.junit.freemarker.expectation.factory;
+package com.holi.junit.freemarker.internal.expectation.factory;
 
 import com.holi.junit.freemarker.Expectation;
 import com.holi.junit.freemarker.ExpectationContext;
-import com.holi.junit.freemarker.expectation.ExpectationFactory;
-import com.holi.junit.freemarker.expectation.ExpectationSpecification;
-import com.holi.junit.freemarker.expectation.context.ExpectationContexts;
+import com.holi.junit.freemarker.internal.expectation.ExpectationSpecification;
 
-import static com.holi.junit.freemarker.expectation.context.ExpectationContexts.createPredicationContext;
+import static com.holi.junit.freemarker.internal.expectation.context.ExpectationContexts.createPredicationContext;
 
 /**
  * Created by selonj on 16-8-31.

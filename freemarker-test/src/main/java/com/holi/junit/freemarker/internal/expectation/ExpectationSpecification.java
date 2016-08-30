@@ -1,4 +1,4 @@
-package com.holi.junit.freemarker.expectation;
+package com.holi.junit.freemarker.internal.expectation;
 
 /**
  * Created by selonj on 16-8-30.

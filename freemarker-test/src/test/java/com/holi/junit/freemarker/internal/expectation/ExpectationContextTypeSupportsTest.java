@@ -1,7 +1,7 @@
-package com.holi.junit.freemarker.expectation;
+package com.holi.junit.freemarker.internal.expectation;
 
 import com.holi.junit.freemarker.ExpectationContext;
-import com.holi.junit.freemarker.expectation.context.ExpectationContexts;
+import com.holi.junit.freemarker.internal.expectation.context.ExpectationContexts;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateModel;
 import java.util.Date;
@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 
-import static com.holi.junit.freemarker.expectation.Variables.expectedNullValue;
-import static com.holi.junit.freemarker.expectation.Variables.expectedValue;
-import static com.holi.junit.freemarker.expectation.Variables.with;
+import static com.holi.junit.freemarker.internal.expectation.Variables.expectedNullValue;
+import static com.holi.junit.freemarker.internal.expectation.Variables.expectedValue;
+import static com.holi.junit.freemarker.internal.expectation.Variables.with;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;

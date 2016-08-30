@@ -1,4 +1,4 @@
-package com.holi.junit.freemarker.expectation.factory;
+package com.holi.junit.freemarker.internal.expectation.factory;
 
 import com.holi.junit.freemarker.Expectation;
 import com.holi.junit.freemarker.ExpectationContext;
