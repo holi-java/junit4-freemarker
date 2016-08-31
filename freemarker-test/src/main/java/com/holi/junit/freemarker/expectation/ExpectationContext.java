@@ -17,7 +17,5 @@ public interface ExpectationContext {
 
   Object actualValue() throws TemplateException, IOException;
 
-  String body() throws IOException, TemplateException;
-
   void eval(Writer out) throws IOException, TemplateException;
 }

@@ -29,7 +29,10 @@ public class InstructionStackExpectationBuilder implements ExpectationBuilder {
   }
 
   private Expectation dumpInstructionStackWhenExpectationFails(final ExpectationType type, final Map params, final TemplateDirectiveBody body) {
-    final InstructionStack instructionStack = instructionStack(env);
+    return createExpectationWithInstructionStack(type, params, body, instructionStack(env));
+  }
+
+  private Expectation createExpectationWithInstructionStack(final ExpectationType type, final Map params, final TemplateDirectiveBody body, final InstructionStack instructionStack) {
     return new Expectation() {
       @Override public void checking() throws TemplateException, IOException {
         try {
@@ -50,11 +53,7 @@ public class InstructionStackExpectationBuilder implements ExpectationBuilder {
     return new InstructionStack() {
       @Override public String dump(Throwable exception) {
         String message = exception.getLocalizedMessage();
-        return message == null ? dump() : (message + "\n" + dump());
-      }
-
-      @Override public String dump() {
-        return instructionStack;
+        return message == null ? instructionStack : (message + "\n" + instructionStack);
       }
     };
   }
@@ -67,7 +66,6 @@ public class InstructionStackExpectationBuilder implements ExpectationBuilder {
   }
 
   private interface InstructionStack {
-    String dump();
 
     String dump(Throwable exception);
   }

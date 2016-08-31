@@ -2,7 +2,6 @@ package com.holi.junit.utils;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperBuilder;
-import freemarker.ext.beans.SimpleMapModel;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleCollection;
 import freemarker.template.TemplateModel;
@@ -28,7 +27,7 @@ public class Variables {
   }
 
   public static Variable expectedValue(boolean value) {
-    return expectedValue(TemplateModels.booleanModel(value));
+    return expectedValue(TemplateModels.booleanValue(value));
   }
 
   public static Variable expectedValue(String value) {
@@ -36,11 +35,11 @@ public class Variables {
   }
 
   public static Variable expectedValue(Date date) {
-    return expectedValue(TemplateModels.dateModel(date));
+    return expectedValue(TemplateModels.date(date));
   }
 
   public static Variable expectedValue(Number number) {
-    return expectedValue(TemplateModels.numberModel(number));
+    return expectedValue(TemplateModels.number(number));
   }
 
   public static Variable expectedValue(List list) {
@@ -52,7 +51,7 @@ public class Variables {
   }
 
   public static Variable expectedValue(Map map) {
-    return expectedValue(new SimpleMapModel(map, wrapper()));
+    return expectedValue(TemplateModels.map(map,wrapper()));
   }
 
   private static BeansWrapper wrapper() {

@@ -24,10 +24,6 @@ class DelegatingExpectationContext implements ExpectationContext {
     return context.actualValue();
   }
 
-  @Override public String body() throws IOException, TemplateException {
-    return context.body();
-  }
-
   @Override public void eval(Writer out) throws IOException, TemplateException {
     context.eval(out);
   }

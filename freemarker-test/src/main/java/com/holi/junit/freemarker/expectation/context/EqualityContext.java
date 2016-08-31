@@ -15,7 +15,6 @@ import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateSequenceModel;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -35,12 +34,6 @@ class EqualityContext implements ExpectationContext {
     this.body = body;
   }
 
-  @Override public String body() throws IOException, TemplateException {
-    StringWriter out = new StringWriter();
-    eval(out);
-    return out.toString();
-  }
-
   public void eval(Writer out) throws TemplateException, IOException {
     if (body != null) body.render(out);
   }
@@ -57,7 +50,6 @@ class EqualityContext implements ExpectationContext {
     return unwrap(params.get(name));
   }
 
-  //todo:introduce which ?.unwrap because the <@test> will use it too
   private Object unwrap(Object value) throws TemplateModelException {
     if (value == null) return null;
     if (value instanceof WrapperTemplateModel) return ((WrapperTemplateModel) value).getWrappedObject();
