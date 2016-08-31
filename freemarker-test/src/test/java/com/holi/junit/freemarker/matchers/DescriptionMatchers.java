@@ -23,4 +23,12 @@ public class DescriptionMatchers {
   public static Matcher<? super Description> descriptionWithTestName(String testName) {
     return hasProperty("methodName", equalTo(testName));
   }
+
+  public static Matcher<? super Description> testThatIs(String script, String testName) {
+    return allOf(scriptThatIs(script), testThatIs(testName));
+  }
+
+  public static Matcher<? super Description> scriptThatIs(String script) {
+    return hasProperty("className", equalTo(script));
+  }
 }
