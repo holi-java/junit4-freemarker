@@ -3,7 +3,6 @@ package com.holi.junit.freemarker.expectation;
 import com.holi.junit.freemarker.blocks.Expectation;
 import com.holi.junit.freemarker.blocks.Expectation.ExpectationType;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
-import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class FreeMarkerExpectationBuilder implements ExpectationBuilder {
     registry.put(type, factories);
   }
 
-  @Override public Expectation create(ExpectationType type, Environment env, final Map params, TemplateDirectiveBody body) throws TemplateException {
+  @Override public Expectation create(ExpectationType type, final Map params, TemplateDirectiveBody body) throws TemplateException {
     return factory(type, specification(params, body)).create(createExpectationContext(params, body));
   }
 

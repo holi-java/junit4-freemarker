@@ -39,7 +39,7 @@ public class AssertBlockTest {
   @Before public void init() throws Throwable {
     context.checking(new Expectations() {{
       ignoring(stack);
-      allowing(expectationBuilder).create(Expectation.ExpectationType.ASSERTION, env, params, body); will(returnValue(expectation));
+      allowing(expectationBuilder).create(Expectation.ExpectationType.ASSERTION, params, body); will(returnValue(expectation));
     }});
   }
 

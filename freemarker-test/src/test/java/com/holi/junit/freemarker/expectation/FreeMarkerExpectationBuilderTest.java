@@ -29,11 +29,11 @@ public class FreeMarkerExpectationBuilderTest {
   private final FreeMarkerExpectationBuilder expectations = new FreeMarkerExpectationBuilder();
 
   @Test public void satisfiedIfActualValueEqualsToExpectedValue() throws Exception {
-    expectations.create(ASSERTION, UNUSED_ENV, with(expectedValue("foo"), actualValue("foo")), NO_BODY).checking();
+    expectations.create(ASSERTION, with(expectedValue("foo"), actualValue("foo")), NO_BODY).checking();
   }
 
   @Test public void throwsAssertionErrorIfActualValueNotEqualsToExpectedValue() throws Exception {
-    Expectation expectation = expectations.create(ASSERTION, UNUSED_ENV, with(expectedValue("foo"), actualValue("bar")), NO_BODY);
+    Expectation expectation = expectations.create(ASSERTION, with(expectedValue("foo"), actualValue("bar")), NO_BODY);
     try {
       expectation.checking();
       fail("should failed");
@@ -44,12 +44,12 @@ public class FreeMarkerExpectationBuilderTest {
   }
 
   @Test public void satisfiedIfExpectedValueSatisfied() throws Exception {
-    expectations.create(ASSERTION, UNUSED_ENV, with(expectedValue(true)), NO_BODY).checking();
+    expectations.create(ASSERTION, with(expectedValue(true)), NO_BODY).checking();
   }
 
   @Test public void throwsClassCastExceptionIfExpectedValueNotABooleanExpressionWhenTestExpectedValueAsPredicate() throws Exception {
     try {
-      expectations.create(ASSERTION, UNUSED_ENV, with(expectedValue("other type")), NO_BODY).checking();
+      expectations.create(ASSERTION, with(expectedValue("other type")), NO_BODY).checking();
       fail("should failed");
     } catch (ClassCastException expected) {
       assertTrue(true);
@@ -57,11 +57,11 @@ public class FreeMarkerExpectationBuilderTest {
   }
 
   @Test public void satisfiedIfExpectedValueEqualsToBodyAsString() throws Exception {
-    expectations.create(ASSERTION, UNUSED_ENV, with(expectedValue("foo")), bodyWithString("foo")).checking();
+    expectations.create(ASSERTION, with(expectedValue("foo")), bodyWithString("foo")).checking();
   }
 
   @Test public void throwsClassCastExceptionIfExpectedValueNotAStringWhenMatchingExpectedValueEqualsToBodyAsString() throws Exception {
-    Expectation expectation = expectations.create(ASSERTION, UNUSED_ENV, with(expectedValue(true)), bodyWithString("true"));
+    Expectation expectation = expectations.create(ASSERTION, with(expectedValue(true)), bodyWithString("true"));
 
     try {
       expectation.checking();
@@ -73,7 +73,7 @@ public class FreeMarkerExpectationBuilderTest {
 
   @Test public void reportsHelpMessageWhenAssertBlockWithInvalidForm() throws Exception {
     try {
-      expectations.create(ASSERTION, UNUSED_ENV, with(expectedValue("foo"), actualValue("foo")), bodyWithString("body"));
+      expectations.create(ASSERTION, with(expectedValue("foo"), actualValue("foo")), bodyWithString("body"));
       fail("should failed");
     } catch (IllegalArgumentException expected) {
       assertThat(expected, hasMessage(containsString("<@assert expected=foo actual=bar/>")));
@@ -83,25 +83,25 @@ public class FreeMarkerExpectationBuilderTest {
   }
 
   @Test public void satisfiedIfTestRanWithNoExceptionFails() throws Exception {
-    expectations.create(EXCEPTION, UNUSED_ENV, with(testName("test")), bodyWithString("body")).checking();
+    expectations.create(EXCEPTION, with(testName("test")), bodyWithString("body")).checking();
   }
 
   @Test public void satisfiedIfTestFailsWithExpectedException() throws Exception {
     IllegalStateException exception = new IllegalStateException();
-    Expectation expectation = expectations.create(EXCEPTION, UNUSED_ENV, with(expectedValue(exception.getClass().getName())), throwExceptionWhenEvalBody(exception));
+    Expectation expectation = expectations.create(EXCEPTION, with(expectedValue(exception.getClass().getName())), throwExceptionWhenEvalBody(exception));
 
     expectation.checking();
   }
 
   @Test public void satisfiedIfTestFailsWithSubtypeOfExpectedException() throws Exception {
     IllegalStateException exception = new IllegalStateException();
-    Expectation expectation = expectations.create(EXCEPTION, UNUSED_ENV, with(expectedValue("java.lang.Exception")), throwExceptionWhenEvalBody(exception));
+    Expectation expectation = expectations.create(EXCEPTION, with(expectedValue("java.lang.Exception")), throwExceptionWhenEvalBody(exception));
 
     expectation.checking();
   }
 
   @Test public void throwsAssertionErrorIfExpectedExceptionMismatched() throws Exception {
-    Expectation expectation = expectations.create(EXCEPTION, UNUSED_ENV, with(expectedValue("java.lang.Exception")), bodyWithString("success"));
+    Expectation expectation = expectations.create(EXCEPTION, with(expectedValue("java.lang.Exception")), bodyWithString("success"));
 
     try {
       expectation.checking();

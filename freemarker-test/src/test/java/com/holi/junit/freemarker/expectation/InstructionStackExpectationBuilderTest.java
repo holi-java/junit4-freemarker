@@ -31,15 +31,15 @@ public class InstructionStackExpectationBuilderTest {
   private final Expectation actualExpectation = context.mock(Expectation.class);
   private final ExpectationBuilder expectationBuilder = context.mock(ExpectationBuilder.class);
   private final Environment env = Environments.as("test.ftl", "<@blockMissing/>");
-  private final InstructionStackExpectationBuilder expectations = new InstructionStackExpectationBuilder(expectationBuilder);
+  private final InstructionStackExpectationBuilder expectations = new InstructionStackExpectationBuilder(expectationBuilder, env);
 
-  @Test public void dumpStackTraceWithInstructionStack() throws Exception {
+  @Test public void dumpStackTraceWithInstructionStackWhenExpectationFails() throws Exception {
     context.checking(new Expectations() {{
-      allowing(expectationBuilder).create(ASSERTION, env, params, body); will(returnValue(actualExpectation));
+      allowing(expectationBuilder).create(ASSERTION, params, body); will(returnValue(actualExpectation));
       oneOf(actualExpectation).checking(); will(throwException(new AssertionError("error")));
     }});
 
-    Expectation expectation = expectations.create(ASSERTION, env, params, body);
+    Expectation expectation = expectations.create(ASSERTION, params, body);
 
     try {
       expectation.checking();
@@ -54,11 +54,11 @@ public class InstructionStackExpectationBuilderTest {
     final TemplateException error = new TemplateException("error", env);
     context.checking(new Expectations() {{
 
-      allowing(expectationBuilder).create(ASSERTION, env, params, body); will(returnValue(actualExpectation));
+      allowing(expectationBuilder).create(ASSERTION, params, body); will(returnValue(actualExpectation));
       oneOf(actualExpectation).checking(); will(throwException(error));
     }});
 
-    Expectation expectation = expectations.create(ASSERTION, env, params, body);
+    Expectation expectation = expectations.create(ASSERTION, params, body);
 
     try {
       expectation.checking();

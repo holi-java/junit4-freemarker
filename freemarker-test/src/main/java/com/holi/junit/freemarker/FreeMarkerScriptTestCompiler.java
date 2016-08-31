@@ -48,9 +48,14 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
 
   private Environment compiler(Template template, TestCollector collector) throws TemplateException, IOException {
     Environment env = template.createProcessingEnvironment(null, NullWriter.INSTANCE);
-    BlockStack stack = new TopBlockStack(env);
-    for (JUnitBlock block : testBlocks(collector, stack)) env.setGlobalVariable(block.getName(), block);
+    for (JUnitBlock block : testBlocks(collector, env)) env.setGlobalVariable(block.getName(), block);
     return env;
+  }
+
+  private List<? extends JUnitBlock> testBlocks(TestCollector collector, Environment env) {
+    BlockStack stack = new TopBlockStack(env);
+    ExpectationBuilder expectations = new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder(),env);
+    return Arrays.asList(testBlock(collector, expectations, stack), assertBlock(expectations, stack));
   }
 
   private TestCollector collectTests(final ArrayList<Test> tests) {
@@ -105,11 +110,6 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
     final Configuration configuration = new Configuration(Configuration.VERSION_2_3_25);
     configuration.setLogTemplateExceptions(false);
     return configuration;
-  }
-
-  private List<? extends JUnitBlock> testBlocks(TestCollector collector, BlockStack stack) {
-    ExpectationBuilder expectations = new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder());
-    return Arrays.asList(testBlock(collector, expectations, stack), assertBlock(expectations,stack));
   }
 
   private AssertBlock assertBlock(ExpectationBuilder expectations, BlockStack stack) {

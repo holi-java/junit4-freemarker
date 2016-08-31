@@ -17,21 +17,23 @@ import java.util.Map;
  */
 public class InstructionStackExpectationBuilder implements ExpectationBuilder {
   private ExpectationBuilder expectations;
+  private final Environment env;
 
-  public InstructionStackExpectationBuilder(ExpectationBuilder expectations) {
+  public InstructionStackExpectationBuilder(ExpectationBuilder expectations, Environment env) {
     this.expectations = expectations;
+    this.env = env;
   }
 
-  @Override public Expectation create(ExpectationType type, Environment env, final Map params, final TemplateDirectiveBody body) throws TemplateException {
-    return dumpInstructionStackWhenExpectationFails(type, env, params, body);
+  @Override public Expectation create(ExpectationType type, final Map params, final TemplateDirectiveBody body) throws TemplateException {
+    return dumpInstructionStackWhenExpectationFails(type, params, body);
   }
 
-  private Expectation dumpInstructionStackWhenExpectationFails(final ExpectationType type, final Environment env, final Map params, final TemplateDirectiveBody body) {
+  private Expectation dumpInstructionStackWhenExpectationFails(final ExpectationType type, final Map params, final TemplateDirectiveBody body) {
     final InstructionStack instructionStack = instructionStack(env);
     return new Expectation() {
       @Override public void checking() throws TemplateException, IOException {
         try {
-          expectations.create(type, env, params, body).checking();
+          expectations.create(type, params, body).checking();
         } catch (AssertInstructionStackException | AssertInstructionStackError error) {
           throw error;
         } catch (AssertionError error) {

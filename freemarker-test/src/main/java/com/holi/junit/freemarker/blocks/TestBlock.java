@@ -48,7 +48,7 @@ public class TestBlock implements JUnitBlock, TemplateDirectiveModel {
 
       @Override public void run() throws Throwable {
         try {
-          expectations.create(EXCEPTION, env, params, body).checking();
+          expectations.create(EXCEPTION, params, body).checking();
         } finally {
           stack.pop(self);
         }

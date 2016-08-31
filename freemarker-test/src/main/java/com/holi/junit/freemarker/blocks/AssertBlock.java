@@ -25,7 +25,7 @@ public class AssertBlock implements JUnitBlock, TemplateDirectiveModel {
   @Override public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
     stack.push(this);
     try {
-      expectations.create(ASSERTION, env, params, body).checking();
+      expectations.create(ASSERTION, params, body).checking();
     } finally {
       stack.pop(this);
     }
