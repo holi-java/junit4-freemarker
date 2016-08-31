@@ -3,14 +3,17 @@ package com.holi.junit.utils;
 import com.holi.junit.AbstractScriptTest;
 import com.holi.junit.Script;
 import com.holi.junit.ScriptRunner;
+import com.holi.junit.ScriptScanner;
 import com.holi.junit.ScriptTest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.hamcrest.Matcher;
 import org.junit.runner.Description;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
+import org.junit.runners.model.TestClass;
 
 import static com.holi.junit.utils.StaticScript.createScript;
 import static com.holi.junit.freemarker.matchers.DescriptionMatchers.testThatIs;
@@ -39,7 +42,7 @@ public class TestResult {
   }
 
   public static TestResult test(String script, String snippet) throws Throwable {
-    return test(createTest(createScript("src/test/resources",script, snippet)));
+    return test(createTest(createScript("src/test/resources", script, snippet)));
   }
 
   public static TestResult test(ScriptTest test) throws Throwable {
@@ -54,11 +57,19 @@ public class TestResult {
   }
 
   private static ScriptTest createTest(final Script script) throws Throwable {
-    final ScriptRunner runner = new ScriptRunner(TestResult.class, script);
+    final ScriptRunner runner = new ScriptRunner(TestResult.class, scanAs(script));
     return new AbstractScriptTest(script) {
 
       @Override public void run(RunNotifier notifier) {
         runner.run(notifier);
+      }
+    };
+  }
+
+  private static ScriptScanner scanAs(final Script ...scripts) {
+    return new ScriptScanner() {
+      @Override public List<Script> scan(TestClass testClass) {
+        return Arrays.asList(scripts);
       }
     };
   }

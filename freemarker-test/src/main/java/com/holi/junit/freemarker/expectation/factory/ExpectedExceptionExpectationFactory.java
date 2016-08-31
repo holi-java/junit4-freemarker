@@ -54,7 +54,7 @@ class ExpectedExceptionExpectationFactory implements ExpectationFactory {
       try {
         return Class.forName(expectedExpectationClass);
       } catch (ClassNotFoundException e) {
-        throw new IllegalArgumentException(expectedExpectationClass, e);
+        throw new IllegalArgumentException("Class not found: " + expectedExpectationClass, e);
       }
     }
   }

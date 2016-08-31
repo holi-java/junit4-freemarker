@@ -1,7 +1,7 @@
 package com.holi.junit;
 
 import com.holi.junit.freemarker.FreeMarkerScriptTestCompiler;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
@@ -21,9 +21,15 @@ public class ScriptRunner extends ParentRunner<ScriptTest> {
     super(testClass);
   }
 
-  public ScriptRunner(Class<?> testClass, Script script) throws Throwable {
+  public ScriptRunner(Class<?> testClass, ScriptScanner scanner) throws Exception {
     super(testClass);
-    this.tests = Arrays.asList(compiler.compile(script));
+    this.tests = compile(scanner.scan(getTestClass()));
+  }
+
+  private List<ScriptTest> compile(List<Script> scripts) throws Exception {
+    List<ScriptTest> tests = new ArrayList<>();
+    for (Script script : scripts) tests.add(compiler.compile(script));
+    return tests;
   }
 
   @Override protected List<ScriptTest> getChildren() {
