@@ -8,8 +8,10 @@ import com.holi.junit.ScriptTestCompiler;
 import com.holi.junit.Test;
 import com.holi.junit.freemarker.blocks.AssertBlock;
 import com.holi.junit.freemarker.blocks.BlockStack;
+import com.holi.junit.freemarker.blocks.BlockStackCollection;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
 import com.holi.junit.freemarker.blocks.JUnitBlock;
+import com.holi.junit.freemarker.blocks.NamespaceCleanUpStack;
 import com.holi.junit.freemarker.blocks.TestBlock;
 import com.holi.junit.freemarker.blocks.TestCollector;
 import com.holi.junit.freemarker.blocks.TopBlockStack;
@@ -54,7 +56,7 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
   }
 
   private List<? extends JUnitBlock> testBlocks(TestCollector collector, Environment env) {
-    BlockStack stack = new TopBlockStack(env);
+    BlockStack stack = new BlockStackCollection(new TopBlockStack(env),new NamespaceCleanUpStack(env));
     ExpectationBuilder expectations = new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder(),env);
     return Arrays.asList(testBlock(collector, expectations, stack), assertBlock(expectations, stack));
   }

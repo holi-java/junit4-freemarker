@@ -1,6 +1,7 @@
 package com.holi.junit.freemarker.blocks;
 
-import com.holi.junit.Environments;
+import com.holi.junit.utils.Blocks;
+import com.holi.junit.utils.Environments;
 import freemarker.core.Environment;
 import freemarker.template.TemplateException;
 import org.junit.Test;
@@ -18,8 +19,8 @@ import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
  */
 public class TopBlockStackTest {
   private final Environment env = Environments.as("test.ftl", "valid");
-  private JUnitBlock testBlock = blockNamed("test");
-  private JUnitBlock assertBlock = blockNamed("test");
+  private JUnitBlock testBlock = Blocks.blockNamed("test");
+  private JUnitBlock assertBlock = Blocks.blockNamed("test");
 
   private TopBlockStack stack = new TopBlockStack(env);
 
@@ -59,13 +60,5 @@ public class TopBlockStackTest {
     } catch (TemplateException expected) {
       assertTrue(true);
     }
-  }
-
-  private JUnitBlock blockNamed(final String name) {
-    return new JUnitBlock() {
-      @Override public String getName() {
-        return name;
-      }
-    };
   }
 }

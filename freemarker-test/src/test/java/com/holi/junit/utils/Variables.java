@@ -1,18 +1,11 @@
-package com.holi.junit.freemarker.expectation;
+package com.holi.junit.utils;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.ext.beans.SimpleMapModel;
 import freemarker.template.Configuration;
-import freemarker.template.ObjectWrapper;
 import freemarker.template.SimpleCollection;
-import freemarker.template.SimpleScalar;
-import freemarker.template.TemplateBooleanModel;
-import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateNumberModel;
-import freemarker.template.TemplateSequenceModel;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,23 +24,23 @@ public class Variables {
   }
 
   public static Variable actualValue(String value) {
-    return Variable.valueOf("actual", scalar(value));
+    return Variable.valueOf("actual", TemplateModels.scalar(value));
   }
 
   public static Variable expectedValue(boolean value) {
-    return expectedValue(booleanModel(value));
+    return expectedValue(TemplateModels.booleanModel(value));
   }
 
   public static Variable expectedValue(String value) {
-    return expectedValue(scalar(value));
+    return expectedValue(TemplateModels.scalar(value));
   }
 
   public static Variable expectedValue(Date date) {
-    return expectedValue(dateModel(date));
+    return expectedValue(TemplateModels.dateModel(date));
   }
 
   public static Variable expectedValue(Number number) {
-    return expectedValue(numberModel(number));
+    return expectedValue(TemplateModels.numberModel(number));
   }
 
   public static Variable expectedValue(List list) {
@@ -55,7 +48,7 @@ public class Variables {
   }
 
   public static Variable expectedValue(Object[] array) {
-    return expectedValue(sequence(array, wrapper()));
+    return expectedValue(TemplateModels.sequence(array, wrapper()));
   }
 
   public static Variable expectedValue(Map map) {
@@ -77,7 +70,7 @@ public class Variables {
   }
 
   public static Variable testName(String testName) {
-    return testName(scalar(testName));
+    return testName(TemplateModels.scalar(testName));
   }
 
   public static Variable testNameMissing() {
@@ -86,49 +79,5 @@ public class Variables {
 
   private static Variable testName(TemplateModel testName) {
     return Variable.valueOf("name", testName);
-  }
-
-  private static TemplateModel scalar(String value) {
-    return new SimpleScalar(value);
-  }
-
-  private static TemplateModel booleanModel(final boolean value) {
-    return new TemplateBooleanModel() {
-      @Override public boolean getAsBoolean() throws TemplateModelException {
-        return value;
-      }
-    };
-  }
-
-  private static TemplateModel sequence(final Object[] array, final ObjectWrapper wrapper) {
-    return new TemplateSequenceModel() {
-      @Override public TemplateModel get(int index) throws TemplateModelException {
-        return wrapper.wrap(array[index]);
-      }
-
-      @Override public int size() throws TemplateModelException {
-        return array.length;
-      }
-    };
-  }
-
-  private static TemplateModel dateModel(final Date date) {
-    return new TemplateDateModel() {
-      @Override public Date getAsDate() throws TemplateModelException {
-        return date;
-      }
-
-      @Override public int getDateType() {
-        return 0;
-      }
-    };
-  }
-
-  private static TemplateModel numberModel(final Number number) {
-    return new TemplateNumberModel() {
-      @Override public Number getAsNumber() throws TemplateModelException {
-        return number;
-      }
-    };
   }
 }

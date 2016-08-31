@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.ASSERTION;
 import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.EXCEPTION;
-import static com.holi.junit.freemarker.expectation.Variables.actualValue;
-import static com.holi.junit.freemarker.expectation.Variables.expectedValue;
-import static com.holi.junit.freemarker.expectation.Variables.testName;
-import static com.holi.junit.freemarker.expectation.Variables.with;
+import static com.holi.junit.utils.Variables.actualValue;
+import static com.holi.junit.utils.Variables.expectedValue;
+import static com.holi.junit.utils.Variables.testName;
+import static com.holi.junit.utils.Variables.with;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;

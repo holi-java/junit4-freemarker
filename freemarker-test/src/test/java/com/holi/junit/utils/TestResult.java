@@ -1,5 +1,9 @@
-package com.holi.junit;
+package com.holi.junit.utils;
 
+import com.holi.junit.AbstractScriptTest;
+import com.holi.junit.Script;
+import com.holi.junit.ScriptRunner;
+import com.holi.junit.ScriptTest;
 import java.util.ArrayList;
 import java.util.List;
 import org.hamcrest.Matcher;
@@ -8,7 +12,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 
-import static com.holi.junit.StaticScript.createScript;
+import static com.holi.junit.utils.StaticScript.createScript;
 import static com.holi.junit.freemarker.matchers.DescriptionMatchers.testThatIs;
 import static com.holi.junit.freemarker.matchers.FailureMatchers.failureWithDescription;
 import static com.holi.junit.freemarker.matchers.FailureMatchers.failureWithException;

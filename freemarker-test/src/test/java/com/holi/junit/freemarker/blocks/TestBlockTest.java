@@ -8,9 +8,9 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.holi.junit.freemarker.expectation.Variables.testName;
-import static com.holi.junit.freemarker.expectation.Variables.testNameMissing;
-import static com.holi.junit.freemarker.expectation.Variables.with;
+import static com.holi.junit.utils.Variables.testName;
+import static com.holi.junit.utils.Variables.testNameMissing;
+import static com.holi.junit.utils.Variables.with;
 import static com.holi.junit.freemarker.matchers.TestMatchers.testThatIs;
 
 /**

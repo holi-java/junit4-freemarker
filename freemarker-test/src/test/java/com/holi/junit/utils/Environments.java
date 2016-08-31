@@ -1,4 +1,4 @@
-package com.holi.junit;
+package com.holi.junit.utils;
 
 import freemarker.core.Environment;
 import freemarker.template.Configuration;

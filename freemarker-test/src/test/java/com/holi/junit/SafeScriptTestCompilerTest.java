@@ -1,11 +1,13 @@
 package com.holi.junit;
 
+import com.holi.junit.utils.StaticScript;
+import com.holi.junit.utils.TestResult;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.*;
 import org.junit.Test;
 
-import static com.holi.junit.TestResult.test;
+import static com.holi.junit.utils.TestResult.test;
 import static org.hamcrest.CoreMatchers.startsWith;
 
 /**

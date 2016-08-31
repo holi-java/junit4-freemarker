@@ -1,6 +1,6 @@
 package com.holi.junit.freemarker.expectation;
 
-import com.holi.junit.Environments;
+import com.holi.junit.utils.Environments;
 import com.holi.junit.freemarker.blocks.Expectation;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
 import freemarker.core.Environment;

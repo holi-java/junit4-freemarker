@@ -2,11 +2,11 @@ package com.holi.junit.freemarker;
 
 import com.holi.junit.Script;
 import com.holi.junit.ScriptTest;
-import com.holi.junit.TestResult;
+import com.holi.junit.utils.TestResult;
 import org.junit.Test;
 
-import static com.holi.junit.StaticScript.createScript;
-import static com.holi.junit.TestResult.test;
+import static com.holi.junit.utils.StaticScript.createScript;
+import static com.holi.junit.utils.TestResult.test;
 
 /**
  * Created by selonj on 16-8-31.

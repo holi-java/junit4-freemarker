@@ -1,6 +1,7 @@
 package com.holi.junit.freemarker.expectation;
 
 import com.holi.junit.freemarker.expectation.context.ExpectationContexts;
+import com.holi.junit.utils.Variable;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateModel;
 import java.math.BigDecimal;
@@ -10,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 
-import static com.holi.junit.freemarker.expectation.Variables.expectedNullValue;
-import static com.holi.junit.freemarker.expectation.Variables.expectedValue;
-import static com.holi.junit.freemarker.expectation.Variables.with;
+import static com.holi.junit.utils.Variables.expectedNullValue;
+import static com.holi.junit.utils.Variables.expectedValue;
+import static com.holi.junit.utils.Variables.with;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;

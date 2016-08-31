@@ -1,5 +1,6 @@
 package com.holi.junit;
 
+import com.holi.junit.utils.TestResult;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.containsString;
@@ -92,6 +93,16 @@ public class FreeMarkerRunnerAcceptanceTest {
     TestResult result = test("<#include '_foo.ftl'><@assert expected=foo actual='bar'/>");
 
     result.hasRanTests(1);
+    result.assertAllTestsPassed();
+  }
+
+  @Test public void resetVariablesForEachTest() throws Throwable {
+    TestResult result = test(
+        "<@test name='first'><#assign foo='bar'><@assert expected=foo?exists /></@test>"+
+    /**/"<@test name='second'><@assert expected=!foo?exists/></@test>"
+    );
+
+    result.hasRanTests(2);
     result.assertAllTestsPassed();
   }
 
