@@ -32,13 +32,14 @@ public class AssertBlockTest {
   public final JUnitRuleMockery context = new JUnitRuleMockery();
   private final ExpectationBuilder expectationBuilder = context.mock(ExpectationBuilder.class);
   private final Expectation expectation = context.mock(Expectation.class);
-
+  private final BlockStack stack = context.mock(BlockStack.class);
   private final TemplateDirectiveBody body = context.mock(TemplateDirectiveBody.class);
-  private final AssertBlock assertBlock = new AssertBlock(expectationBuilder);
+  private final AssertBlock assertBlock = new AssertBlock(expectationBuilder, stack);
 
-  @Before public void allowingBuildExpectation() throws Throwable {
+  @Before public void init() throws Throwable {
     context.checking(new Expectations() {{
-      allowing(expectationBuilder).create(Expectation.ExpectationType.ASSERTION, params, body); will(returnValue(expectation));
+      ignoring(stack);
+      allowing(expectationBuilder).create(Expectation.ExpectationType.ASSERTION, env, params, body); will(returnValue(expectation));
     }});
   }
 
@@ -56,7 +57,7 @@ public class AssertBlockTest {
       fail("should failed");
     } catch (TemplateException expected) {
       assertThat(expected.getBlamedExpressionString(), equalTo("assert"));
-      assertThat(expected.getTemplateSourceName(),containsString("test.ftl"));
+      assertThat(expected.getTemplateSourceName(), containsString("test.ftl"));
       assertThat(expected.getFTLInstructionStack(), containsString("\"test.ftl\" at line 1, column 1"));
     }
   }

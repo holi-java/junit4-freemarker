@@ -1,13 +1,11 @@
 package com.holi.junit.freemarker.expectation;
 
+import com.holi.junit.Environments;
 import com.holi.junit.freemarker.blocks.Expectation;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
 import freemarker.core.Environment;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
-import freemarker.template.utility.NullWriter;
 import java.util.Collections;
 import java.util.Map;
 import org.jmock.Expectations;
@@ -32,15 +30,16 @@ public class InstructionStackExpectationBuilderTest {
   private final TemplateDirectiveBody body = context.mock(TemplateDirectiveBody.class);
   private final Expectation actualExpectation = context.mock(Expectation.class);
   private final ExpectationBuilder expectationBuilder = context.mock(ExpectationBuilder.class);
-  private final InstructionStackExpectationBuilder expectations = new InstructionStackExpectationBuilder(expectationBuilder, environmentStub());
+  private final Environment env = Environments.as("test.ftl", "<@blockMissing/>");
+  private final InstructionStackExpectationBuilder expectations = new InstructionStackExpectationBuilder(expectationBuilder);
 
   @Test public void dumpStackTraceWithInstructionStack() throws Exception {
     context.checking(new Expectations() {{
-      allowing(expectationBuilder).create(ASSERTION, params, body); will(returnValue(actualExpectation));
+      allowing(expectationBuilder).create(ASSERTION, env, params, body); will(returnValue(actualExpectation));
       oneOf(actualExpectation).checking(); will(throwException(new AssertionError("error")));
     }});
 
-    Expectation expectation = expectations.create(ASSERTION, params, body);
+    Expectation expectation = expectations.create(ASSERTION, env, params, body);
 
     try {
       expectation.checking();
@@ -52,14 +51,14 @@ public class InstructionStackExpectationBuilderTest {
   }
 
   @Test public void throwsExceptionDirectlyIfCheckingFailsWithTemplateException() throws Exception {
-    final TemplateException error = new TemplateException("error", environmentStub());
+    final TemplateException error = new TemplateException("error", env);
     context.checking(new Expectations() {{
 
-      allowing(expectationBuilder).create(ASSERTION, params, body); will(returnValue(actualExpectation));
+      allowing(expectationBuilder).create(ASSERTION, env, params, body); will(returnValue(actualExpectation));
       oneOf(actualExpectation).checking(); will(throwException(error));
     }});
 
-    Expectation expectation = expectations.create(ASSERTION, params, body);
+    Expectation expectation = expectations.create(ASSERTION, env, params, body);
 
     try {
       expectation.checking();
@@ -71,15 +70,5 @@ public class InstructionStackExpectationBuilderTest {
 
   private void shouldFailed() {
     throw new IllegalStateException("should failed");
-  }
-
-  private Environment environmentStub() {
-    Configuration configuration = new Configuration(Configuration.VERSION_2_3_25);
-    configuration.setLogTemplateExceptions(false);
-    try {
-      return new Template("test.ftl", "<@blockMissing/>", configuration).createProcessingEnvironment(null, NullWriter.INSTANCE);
-    } catch (Exception error) {
-      throw new Error(error);
-    }
   }
 }

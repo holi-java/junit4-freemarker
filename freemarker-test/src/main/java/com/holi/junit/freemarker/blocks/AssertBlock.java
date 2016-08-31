@@ -1,6 +1,5 @@
 package com.holi.junit.freemarker.blocks;
 
-import com.holi.junit.freemarker.blocks.Expectation.ExpectationType;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
@@ -16,33 +15,23 @@ import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.ASSER
  */
 public class AssertBlock implements JUnitBlock, TemplateDirectiveModel {
   private ExpectationBuilder expectations;
-  private ThreadLocal<AssertBlock> stack = new ThreadLocal<>();
+  private BlockStack stack;
 
-  public AssertBlock(ExpectationBuilder expectations) {
+  public AssertBlock(ExpectationBuilder expectations, BlockStack stack) {
     this.expectations = expectations;
+    this.stack = stack;
   }
 
   @Override public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
-    push(env);
+    stack.push(this);
     try {
-      expectations.create(ASSERTION,params, body).checking();
+      expectations.create(ASSERTION, env, params, body).checking();
     } finally {
-      pop(env);
+      stack.pop(this);
     }
-  }
-
-  private void push(Environment env) throws TemplateException {
-    if (stack.get() != null) {
-      throw new TemplateException("<@" + getName() + "> can't nested with another <@" + getName() + "> block!", env);
-    }
-    stack.set(this);
-  }
-
-  private void pop(Environment env) {
-    stack.remove();
   }
 
   public String getName() {
-    return "assert";
+    return ASSERTION.blockName();
   }
 }

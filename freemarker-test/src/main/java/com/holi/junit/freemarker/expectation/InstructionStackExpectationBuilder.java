@@ -17,56 +17,51 @@ import java.util.Map;
  */
 public class InstructionStackExpectationBuilder implements ExpectationBuilder {
   private ExpectationBuilder expectations;
-  private Environment env;
 
-  public InstructionStackExpectationBuilder(ExpectationBuilder expectations, Environment env) {
+  public InstructionStackExpectationBuilder(ExpectationBuilder expectations) {
     this.expectations = expectations;
-    this.env = env;
   }
 
-  @Override public Expectation create(ExpectationType type, final Map params, final TemplateDirectiveBody body) throws TemplateException {
-    return dumpInstructionStackWhenExpectationFails(type, params, body);
+  @Override public Expectation create(ExpectationType type, Environment env, final Map params, final TemplateDirectiveBody body) throws TemplateException {
+    return dumpInstructionStackWhenExpectationFails(type, env, params, body);
   }
 
-  private Expectation dumpInstructionStackWhenExpectationFails(final ExpectationType type, final Map params, final TemplateDirectiveBody body) {
+  private Expectation dumpInstructionStackWhenExpectationFails(final ExpectationType type, final Environment env, final Map params, final TemplateDirectiveBody body) {
+    final InstructionStack instructionStack = instructionStack(env);
     return new Expectation() {
       @Override public void checking() throws TemplateException, IOException {
         try {
-          expectations.create(type, params, body).checking();
+          expectations.create(type, env, params, body).checking();
         } catch (AssertInstructionStackException | AssertInstructionStackError error) {
           throw error;
         } catch (AssertionError error) {
-          throw new AssertInstructionStackError(instructionStack(), error);
+          throw new AssertInstructionStackError(instructionStack, error);
         } catch (RuntimeException error) {
-          throw new AssertInstructionStackException(instructionStack(), error);
+          throw new AssertInstructionStackException(instructionStack, error);
         }
       }
     };
   }
 
-  private InstructionStack instructionStack() {
-    InstructionStack stack = new InstructionStack() {
-      private String instructionStack = null;
-
+  private InstructionStack instructionStack(Environment env) {
+    final String instructionStack = dumpInstructionStack(env);
+    return new InstructionStack() {
       @Override public String dump(Throwable exception) {
         String message = exception.getLocalizedMessage();
         return message == null ? dump() : (message + "\n" + dump());
       }
 
       @Override public String dump() {
-        if (instructionStack != null) return instructionStack;
-        return instructionStack = dumpInstructionStack();
-      }
-
-      private String dumpInstructionStack() {
-        TemplateElement[] stack = _CoreAPI.getInstructionStackSnapshot(env);
-        StringWriter buff = new StringWriter();
-        _CoreAPI.outputInstructionStack(stack, false, buff);
-        return buff.toString();
+        return instructionStack;
       }
     };
-    stack.dump();
-    return stack;
+  }
+
+  private String dumpInstructionStack(Environment env) {
+    TemplateElement[] stack = _CoreAPI.getInstructionStackSnapshot(env);
+    StringWriter buff = new StringWriter();
+    _CoreAPI.outputInstructionStack(stack, false, buff);
+    return buff.toString();
   }
 
   private interface InstructionStack {

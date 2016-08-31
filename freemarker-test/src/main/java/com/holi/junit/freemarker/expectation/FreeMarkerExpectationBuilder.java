@@ -3,7 +3,7 @@ package com.holi.junit.freemarker.expectation;
 import com.holi.junit.freemarker.blocks.Expectation;
 import com.holi.junit.freemarker.blocks.Expectation.ExpectationType;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
-import com.holi.junit.freemarker.expectation.factory.ExpectationFactories;
+import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.ASSER
 import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.EXCEPTION;
 import static com.holi.junit.freemarker.expectation.context.ExpectationContexts.createExpectationContext;
 import static com.holi.junit.freemarker.expectation.factory.ExpectationFactories.createBodyEqualityExpectationFactory;
+import static com.holi.junit.freemarker.expectation.factory.ExpectationFactories.createBodyWithExpectedExpectationFactory;
 import static com.holi.junit.freemarker.expectation.factory.ExpectationFactories.createBodyWithNoExceptionExpectationFactory;
 import static com.holi.junit.freemarker.expectation.factory.ExpectationFactories.createEqualityExpectationFactory;
 import static com.holi.junit.freemarker.expectation.factory.ExpectationFactories.createPredicationExpectationFactory;
@@ -31,7 +32,7 @@ public class FreeMarkerExpectationBuilder implements ExpectationBuilder {
     add(ASSERTION, createPredicationExpectationFactory());
     add(ASSERTION, createBodyEqualityExpectationFactory());
     add(EXCEPTION, createBodyWithNoExceptionExpectationFactory());
-    add(EXCEPTION, ExpectationFactories.createBodyWithExpectedExpectationFactory());
+    add(EXCEPTION, createBodyWithExpectedExpectationFactory());
   }
 
 
@@ -43,7 +44,7 @@ public class FreeMarkerExpectationBuilder implements ExpectationBuilder {
     registry.put(type, factories);
   }
 
-  @Override public Expectation create(ExpectationType type, final Map params, TemplateDirectiveBody body) throws TemplateException {
+  @Override public Expectation create(ExpectationType type, Environment env, final Map params, TemplateDirectiveBody body) throws TemplateException {
     return factory(type, specification(params, body)).create(createExpectationContext(params, body));
   }
 

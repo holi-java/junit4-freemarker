@@ -7,10 +7,12 @@ import com.holi.junit.ScriptTest;
 import com.holi.junit.ScriptTestCompiler;
 import com.holi.junit.Test;
 import com.holi.junit.freemarker.blocks.AssertBlock;
+import com.holi.junit.freemarker.blocks.BlockStack;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
 import com.holi.junit.freemarker.blocks.JUnitBlock;
 import com.holi.junit.freemarker.blocks.TestBlock;
 import com.holi.junit.freemarker.blocks.TestCollector;
+import com.holi.junit.freemarker.blocks.TopBlockStack;
 import com.holi.junit.freemarker.expectation.FreeMarkerExpectationBuilder;
 import com.holi.junit.freemarker.expectation.InstructionStackExpectationBuilder;
 import freemarker.core.Environment;
@@ -23,7 +25,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.Statement;
@@ -41,37 +42,53 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
 
   private List<Test> collectTests(Template template) throws IOException, TemplateException {
     final ArrayList<Test> tests = new ArrayList<>();
-    AtomicBoolean compilationFinished = new AtomicBoolean(false);
-
-    compiler(template, collectTestsOnCompilationStage(into(tests), compilationFinished)).process();
-
-    compilationFinished.set(true);
+    compiler(template, collectTests(tests)).process();
     return tests;
   }
 
   private Environment compiler(Template template, TestCollector collector) throws TemplateException, IOException {
     Environment env = template.createProcessingEnvironment(null, NullWriter.INSTANCE);
-    for (JUnitBlock block : testBlocks(env, collector)) env.setGlobalVariable(block.getName(), block);
+    BlockStack stack = new TopBlockStack(env);
+    for (JUnitBlock block : testBlocks(collector, stack)) env.setGlobalVariable(block.getName(), block);
     return env;
   }
 
-  private TestCollector collectTestsOnCompilationStage(final TestCollector collector, final AtomicBoolean finished) {
-    return new TestCollector() {
-      @Override public void add(Test test) {
-        if (isOutOfCompilationStage()) throw new TestOutOfCompilationStage();
-        collector.add(test);
-      }
-
-      private boolean isOutOfCompilationStage() {
-        return finished.get();
-      }
-    };
-  }
-
-  private TestCollector into(final ArrayList<Test> tests) {
+  private TestCollector collectTests(final ArrayList<Test> tests) {
     return new TestCollector() {
       @Override public void add(final Test test) {
-        tests.add(test);
+        tests.add(testThatDumpInstructionStackEnabled(test));
+      }
+
+      private Test testThatDumpInstructionStackEnabled(Test test) {
+        try {
+          test.run();
+          return createPassedTest(test);
+        } catch (Throwable exception) {
+          return createTestFailedWithException(test, exception);
+        }
+      }
+
+      private Test createPassedTest(final Test test) {
+        return new Test() {
+          @Override public String getName() {
+            return test.getName();
+          }
+
+          @Override public void run() throws Throwable {
+          }
+        };
+      }
+
+      private Test createTestFailedWithException(final Test test, final Throwable exception) {
+        return new Test() {
+          @Override public String getName() {
+            return test.getName();
+          }
+
+          @Override public void run() throws Throwable {
+            throw exception;
+          }
+        };
       }
     };
   }
@@ -90,17 +107,17 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
     return configuration;
   }
 
-  private List<? extends JUnitBlock> testBlocks(Environment environment, TestCollector collector) {
-    ExpectationBuilder expectations = new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder(), environment);
-    return Arrays.asList(testBlock(collector, expectations), assertBlock(expectations));
+  private List<? extends JUnitBlock> testBlocks(TestCollector collector, BlockStack stack) {
+    ExpectationBuilder expectations = new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder());
+    return Arrays.asList(testBlock(collector, expectations, stack), assertBlock(expectations,stack));
   }
 
-  private AssertBlock assertBlock(ExpectationBuilder expectations) {
-    return new AssertBlock(expectations);
+  private AssertBlock assertBlock(ExpectationBuilder expectations, BlockStack stack) {
+    return new AssertBlock(expectations,stack);
   }
 
-  private TestBlock testBlock(TestCollector collector, ExpectationBuilder expectations) {
-    return new TestBlock(collector,expectations);
+  private TestBlock testBlock(TestCollector collector, ExpectationBuilder expectations, BlockStack stack) {
+    return new TestBlock(collector, expectations, stack);
   }
 
   private ScriptTest createGlobalScriptTest(final Script script) {

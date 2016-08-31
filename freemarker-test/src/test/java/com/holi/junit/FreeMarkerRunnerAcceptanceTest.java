@@ -48,7 +48,7 @@ public class FreeMarkerRunnerAcceptanceTest {
     TestResult result = test("<@assert expected='foo'>\n<@assert/></@assert>");
 
     result.hasRanTest(test, null);
-    result.hasTestFailedWithErrorStack(test, null, containsString("<@assert> can't nested with another <@assert> block!"));
+    result.hasTestFailedWithErrorStack(test, null, containsString("<@assert> block can't be nested with another <@assert> block!"));
     result.hasTestFailedWithErrorStack(test, null, containsString("\"test.ftl\" at line 2, column 1"));
   }
 
@@ -79,6 +79,13 @@ public class FreeMarkerRunnerAcceptanceTest {
 
     result.hasRanTests(1);
     result.hasTestFailedWithErrorStack(test, "something", containsString("\"test.ftl\" at line 2, column 1"));
+  }
+
+  @Test public void reportFailedTestWithInstructionStackWhenExpectedExceptionDoesNotBeCaught() throws Throwable {
+    TestResult result = test("<@test name='something' expected='java.lang.Exception'>${'true'?boolean?string}</@test>");
+
+    result.hasRanTests(1);
+    result.hasTestFailedWithErrorStack(test, "something", containsString("\"test.ftl\" at line 1, column 1"));
   }
 
   private TestResult test(String snippet) throws Throwable {
