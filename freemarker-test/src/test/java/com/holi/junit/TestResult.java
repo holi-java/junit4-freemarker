@@ -35,7 +35,7 @@ public class TestResult {
   }
 
   public static TestResult test(String script, String snippet) throws Throwable {
-    return test(createTest(createScript(script, snippet)));
+    return test(createTest(createScript("src/test/resources",script, snippet)));
   }
 
   public static TestResult test(ScriptTest test) throws Throwable {

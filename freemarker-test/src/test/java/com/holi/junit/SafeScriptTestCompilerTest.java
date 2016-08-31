@@ -19,7 +19,7 @@ public class SafeScriptTestCompilerTest {
   private final SafeScriptTestCompiler compiler = new SafeScriptTestCompiler(target);
 
   @Test public void createCompilationFailedTestWhenCompileFailed() throws Throwable {
-    final Script script = StaticScript.createScript("test.ftl", "");
+    final Script script = StaticScript.createScript("src/test/resources", "test.ftl", "");
     context.checking(new Expectations() {{
       allowing(target).compile(script); will(throwException(new Exception("failed")));
     }});

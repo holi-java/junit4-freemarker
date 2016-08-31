@@ -15,6 +15,7 @@ import com.holi.junit.freemarker.blocks.TestCollector;
 import com.holi.junit.freemarker.blocks.TopBlockStack;
 import com.holi.junit.freemarker.expectation.FreeMarkerExpectationBuilder;
 import com.holi.junit.freemarker.expectation.InstructionStackExpectationBuilder;
+import freemarker.cache.FileTemplateLoader;
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -34,7 +35,7 @@ import org.junit.runners.model.Statement;
  */
 public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
   @Override public ScriptTest compile(Script script) throws Exception {
-    List<Test> tests = collectTests(script.open(template(script.getName())));
+    List<Test> tests = collectTests(script.open(template(script)));
 
     if (tests.isEmpty()) return createGlobalScriptTest(script);
     return createScriptSuiteTest(script, tests);
@@ -98,16 +99,17 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
     };
   }
 
-  private Action<Reader, Template> template(final String script) {
+  private Action<Reader, Template> template(final Script script) {
     return new Action<Reader, Template>() {
       @Override public Template call(Reader it) throws IOException {
-        return new Template(script, it, configuration());
+        return new Template(script.getName(), it, configuration(script));
       }
     };
   }
 
-  private Configuration configuration() {
+  private Configuration configuration(Script script) throws IOException {
     final Configuration configuration = new Configuration(Configuration.VERSION_2_3_25);
+    configuration.setTemplateLoader(new FileTemplateLoader(script.baseDir()));
     configuration.setLogTemplateExceptions(false);
     return configuration;
   }

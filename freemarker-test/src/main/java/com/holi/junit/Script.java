@@ -1,5 +1,6 @@
 package com.holi.junit;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 
@@ -8,6 +9,8 @@ import java.io.Reader;
  */
 public interface Script {
   String getName();
+
+  File baseDir();
 
   <R> R open(Action<Reader, R> action) throws IOException;
 }

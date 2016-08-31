@@ -88,6 +88,13 @@ public class FreeMarkerRunnerAcceptanceTest {
     result.hasTestFailedWithErrorStack(test, "something", containsString("\"test.ftl\" at line 1, column 1"));
   }
 
+  @Test public void testCanIncludeRelativeTemplates() throws Throwable {
+    TestResult result = test("<#include '_foo.ftl'><@assert expected=foo actual='bar'/>");
+
+    result.hasRanTests(1);
+    result.assertAllTestsPassed();
+  }
+
   private TestResult test(String snippet) throws Throwable {
     return TestResult.test(scriptName, snippet);
   }

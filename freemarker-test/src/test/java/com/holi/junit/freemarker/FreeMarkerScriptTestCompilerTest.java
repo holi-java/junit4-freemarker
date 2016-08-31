@@ -35,6 +35,6 @@ public class FreeMarkerScriptTestCompilerTest {
   }
 
   private Script script(final String code) {
-    return createScript(script, code);
+    return createScript("src/test/resources", script, code);
   }
 }
