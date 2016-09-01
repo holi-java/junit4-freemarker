@@ -7,5 +7,5 @@ import org.junit.runners.model.TestClass;
  * Created by selonj on 16-9-1.
  */
 public interface ScriptScanner {
-  List<Script> scan(TestClass testClass);
+  List<Script> scan(TestClass testClass) throws Throwable;
 }

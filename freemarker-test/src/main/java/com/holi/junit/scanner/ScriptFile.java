@@ -36,4 +36,14 @@ public class ScriptFile implements Script {
       return action.call(it);
     }
   }
+
+  @Override public boolean equals(Object obj) {
+    if (!(obj instanceof ScriptFile)) return false;
+    ScriptFile that = (ScriptFile) obj;
+    return file.equals(that.file);
+  }
+
+  @Override public int hashCode() {
+    return file.hashCode();
+  }
 }

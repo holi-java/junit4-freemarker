@@ -1,6 +1,7 @@
 package com.holi.junit;
 
 import com.holi.junit.freemarker.FreeMarkerScriptTestCompiler;
+import com.holi.junit.scanner.AnnotationScriptScanner;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.runner.Description;
@@ -17,11 +18,11 @@ public class ScriptRunner extends ParentRunner<ScriptTest> {
   private List<ScriptTest> tests;
   private ScriptTestCompiler compiler = new SafeScriptTestCompiler(new FreeMarkerScriptTestCompiler());
 
-  public ScriptRunner(Class<?> testClass) throws InitializationError {
-    super(testClass);
+  public ScriptRunner(Class<?> testClass) throws Throwable {
+    this(testClass, new AnnotationScriptScanner());
   }
 
-  public ScriptRunner(Class<?> testClass, ScriptScanner scanner) throws Exception {
+  public ScriptRunner(Class<?> testClass, ScriptScanner scanner) throws Throwable {
     super(testClass);
     this.tests = compile(scanner.scan(getTestClass()));
   }
