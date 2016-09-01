@@ -98,8 +98,23 @@ public class FreeMarkerRunnerAcceptanceTest {
 
   @Test public void resetVariablesForEachTest() throws Throwable {
     TestResult result = test(
-        "<@test name='first'><#assign foo='bar'><@assert expected=foo?exists /></@test>"+
+        "<@test name='first'><#assign foo='bar'><@assert expected=foo?exists /></@test>" +
     /**/"<@test name='second'><@assert expected=!foo?exists/></@test>"
+    );
+
+    result.hasRanTests(2);
+    result.assertAllTestsPassed();
+  }
+
+  @Test public void resetSettingsForEachTest() throws Throwable {
+    TestResult result = test(
+    /**/"<@test name='custom number format'>" +
+        /**/"<#setting number_format='000.##'/>" +
+        /**/"<@assert expected='001.23' actual=1.234?string/>" +
+    /**/"</@test>" +
+        /**/"<@test name='default'>" +
+        /**/"<@assert expected='1.234' actual=1.234?string/>" +
+    /**/"</@test>"
     );
 
     result.hasRanTests(2);
