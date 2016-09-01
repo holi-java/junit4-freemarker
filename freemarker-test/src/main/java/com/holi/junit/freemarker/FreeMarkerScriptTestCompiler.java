@@ -28,6 +28,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.Statement;
@@ -45,7 +46,9 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
 
   private List<Test> collectTests(Template template) throws IOException, TemplateException {
     final ArrayList<Test> tests = new ArrayList<>();
-    compiler(template, collectTests(tests)).process();
+    AtomicBoolean compilationCompleted = new AtomicBoolean(false);
+    compiler(template, collectTestsOnCompilationStage(tests, compilationCompleted)).process();
+    compilationCompleted.set(true);
     return tests;
   }
 
@@ -56,47 +59,16 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
   }
 
   private List<? extends JUnitBlock> testBlocks(TestCollector collector, Environment env) {
-    BlockStack stack = new BlockStackCollection(new TopBlockStack(env),new FixtureCleanUpStack(env));
-    ExpectationBuilder expectations = new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder(),env);
+    BlockStack stack = new BlockStackCollection(new TopBlockStack(env), new FixtureCleanUpStack(env));
+    ExpectationBuilder expectations = new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder(), env);
     return Arrays.asList(testBlock(collector, expectations, stack), assertBlock(expectations, stack));
   }
 
-  private TestCollector collectTests(final ArrayList<Test> tests) {
+  private TestCollector collectTestsOnCompilationStage(final ArrayList<Test> tests, final AtomicBoolean compilationCompleted) {
     return new TestCollector() {
       @Override public void add(final Test test) {
-        tests.add(testThatDumpInstructionStackEnabled(test));
-      }
-
-      private Test testThatDumpInstructionStackEnabled(Test test) {
-        try {
-          test.run();
-          return createPassedTest(test);
-        } catch (Throwable exception) {
-          return createTestFailedWithException(test, exception);
-        }
-      }
-
-      private Test createPassedTest(final Test test) {
-        return new Test() {
-          @Override public String getName() {
-            return test.getName();
-          }
-
-          @Override public void run() throws Throwable {
-          }
-        };
-      }
-
-      private Test createTestFailedWithException(final Test test, final Throwable exception) {
-        return new Test() {
-          @Override public String getName() {
-            return test.getName();
-          }
-
-          @Override public void run() throws Throwable {
-            throw exception;
-          }
-        };
+        if (compilationCompleted.get()) throw new TestOutOfCompilationStageException(test);
+        tests.add(test);
       }
     };
   }
@@ -117,7 +89,7 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
   }
 
   private AssertBlock assertBlock(ExpectationBuilder expectations, BlockStack stack) {
-    return new AssertBlock(expectations,stack);
+    return new AssertBlock(expectations, stack);
   }
 
   private TestBlock testBlock(TestCollector collector, ExpectationBuilder expectations, BlockStack stack) {

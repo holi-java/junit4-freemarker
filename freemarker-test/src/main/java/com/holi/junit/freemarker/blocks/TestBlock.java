@@ -1,7 +1,9 @@
 package com.holi.junit.freemarker.blocks;
 
 import com.holi.junit.Test;
+import com.holi.junit.freemarker.TestOutOfCompilationStageException;
 import freemarker.core.Environment;
+import freemarker.template.Template;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
@@ -30,20 +32,27 @@ public class TestBlock implements JUnitBlock, TemplateDirectiveModel {
   }
 
   @Override public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
-    stack.push(this);
-    collector.add(createTest(env, params, body));
+    try {
+      collector.add(createTest(params, body));
+    } catch (TestOutOfCompilationStageException ex) {
+      String directive = getName();
+      throw new TemplateException(directive + " block can't be nested in another " + directive + " block!", env);
+    }
   }
 
-  private Test createTest(final Environment env, final Map params, final TemplateDirectiveBody body) {
+  private Test createTest(final Map params, final TemplateDirectiveBody body) throws TemplateException {
     final TestBlock self = this;
     return new Test() {
+      private Expectation expectation = expectations.create(EXCEPTION, params, body);
+
       @Override public String getName() {
         return testName(params);
       }
 
       @Override public void run() throws Throwable {
+        stack.push(self);
         try {
-          expectations.create(EXCEPTION, params, body).checking();
+          expectation.checking();
         } finally {
           stack.pop(self);
         }

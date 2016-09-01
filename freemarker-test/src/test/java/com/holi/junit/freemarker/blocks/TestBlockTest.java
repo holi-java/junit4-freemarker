@@ -29,6 +29,7 @@ public class TestBlockTest {
 
   @Test public void addsTestWhenTestBlockInterpolated() throws Exception {
     ignoring(stack);
+    ignoring(expectations);
 
     expectsAddingTestThatIs("test something");
 
@@ -37,6 +38,7 @@ public class TestBlockTest {
 
   @Test public void addsTestWithEmptyNameWhenTestNameMissing() throws Exception {
     ignoring(stack);
+    ignoring(expectations);
 
     expectsAddingTestThatIs("");
 
@@ -49,9 +51,9 @@ public class TestBlockTest {
     }});
   }
 
-  private void ignoring(final BlockStack stack) {
+  private void ignoring(final Object mockObject) {
     context.checking(new Expectations() {{
-      ignoring(stack);
+      ignoring(mockObject);
     }});
   }
 }
