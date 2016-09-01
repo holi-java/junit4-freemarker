@@ -5,6 +5,7 @@ import com.holi.junit.utils.Environments;
 import freemarker.core.Environment;
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateScalarModel;
 import org.junit.Test;
 
 import static com.holi.junit.utils.TemplateModels.scalar;
@@ -16,11 +17,11 @@ import static org.junit.Assert.*;
 /**
  * Created by selonj on 16-9-1.
  */
-public class NamespaceCleanUpStackTest {
+public class FixtureCleanUpStackTest {
   private final JUnitBlock testBlock = Blocks.blockNamed("test");
   private final JUnitBlock assertBlock = Blocks.blockNamed("assert");
   private final Environment env = Environments.as("test.ftl", "valid");
-  private final NamespaceCleanUpStack stack = new NamespaceCleanUpStack(env);
+  private final FixtureCleanUpStack stack = new FixtureCleanUpStack(env);
 
   @Test public void resetNamespaceAfterBlockPop() throws Exception {
     stack.push(testBlock);
@@ -50,7 +51,7 @@ public class NamespaceCleanUpStackTest {
 
   private String get(String name) throws TemplateModelException {
     if (currentNamespace().containsKey(name)) {
-      return ((SimpleScalar) currentNamespace().get(name)).getAsString();
+      return ((TemplateScalarModel) currentNamespace().get(name)).getAsString();
     }
     return null;
   }

@@ -27,6 +27,10 @@ public class TemplateModels {
       @Override public String getAsString() throws TemplateModelException {
         return value;
       }
+
+      @Override public String toString() {
+        return value;
+      }
     };
   }
 
