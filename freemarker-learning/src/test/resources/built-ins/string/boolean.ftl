@@ -1,3 +1,12 @@
+<@test name='convert string to boolean using custom boolean format'>
+  <#setting boolean_format='yes,no'>
+
+  <@assert expected=true actual='true'?boolean/>
+  <@assert expected=false actual='false'?boolean/>
+  <@assert expected=true actual='yes'?boolean/>
+  <@assert expected=false actual='no'?boolean/>
+</@test>
+
 <@test name='true'>
   <@assert expected=true actual='true'?boolean/>
 </@test>
