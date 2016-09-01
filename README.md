@@ -1,5 +1,5 @@
 # JUnit4 FreeMarker Test Framework
-> a test framework for freemarker, you can use this project for learning freemark step by step.
+> a test framework for freemarker, you can use this project for learning freemarker step by step.
 
 ## Test Syntax
 
@@ -14,3 +14,22 @@
 
 <@test name="matching test will failed with exception" expected="java.lang.Exception">${invalid_expression}</@test>
 ```
+
+## Get Started
+
+Write a test make it run as **ScriptRunner** and defined a method annotated with **@Scanner** annotation return an instance of **ScriptScanner**. 
+
+```java
+@RunWith(ScriptRunner.class)
+public class FreeMarkerRunnerExample {
+
+  public static @Scanner ScriptScanner scanner() {
+    return new FileSystemScriptScanner(file("src/test/resources"),
+        allOf(not(startsWith("_")), endsWith(".ftl")));
+  }
+}
+```
+
+## Test Result
+
+![test result](etc/screenshorts.png)
