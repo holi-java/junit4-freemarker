@@ -1,1 +1,2 @@
 - <@assert> block can't use ?groups correctly
+- Environment settings can't be reset correctly. How to reset settings?
