@@ -1,2 +1,2 @@
 - <@assert> block can't use ?groups correctly
-- Environment settings can't be reset correctly. How to reset settings?
+- dynamic test can't fetch local variables,e.g:<#list cases as case><@test name=case><@assert expected=case??/></@test></#list>
