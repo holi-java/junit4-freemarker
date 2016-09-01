@@ -13,6 +13,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateNumberModel;
+import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import java.io.IOException;
 import java.io.Writer;
@@ -53,7 +54,7 @@ class EqualityContext implements ExpectationContext {
   private Object unwrap(Object value) throws TemplateModelException {
     if (value == null) return null;
     if (value instanceof WrapperTemplateModel) return ((WrapperTemplateModel) value).getWrappedObject();
-    if (value instanceof SimpleScalar) return ((SimpleScalar) value).getAsString();
+    if (value instanceof TemplateScalarModel) return ((TemplateScalarModel) value).getAsString();
     if (value instanceof TemplateBooleanModel) return ((TemplateBooleanModel) value).getAsBoolean();
     if (value instanceof TemplateDateModel) return ((TemplateDateModel) value).getAsDate();
     if (value instanceof TemplateNumberModel) return new BigDecimal(((TemplateNumberModel) value).getAsNumber().toString());

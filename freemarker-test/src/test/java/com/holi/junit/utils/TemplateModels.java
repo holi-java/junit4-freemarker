@@ -12,6 +12,7 @@ import freemarker.template.TemplateHashModelEx2;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateNumberModel;
+import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import java.util.Collection;
 import java.util.Date;
@@ -21,8 +22,12 @@ import java.util.Map;
  * Created by selonj on 16-9-1.
  */
 public class TemplateModels {
-  public static TemplateModel scalar(String value) {
-    return new SimpleScalar(value);
+  public static TemplateModel scalar(final String value) {
+    return new TemplateScalarModel() {
+      @Override public String getAsString() throws TemplateModelException {
+        return value;
+      }
+    };
   }
 
   public static TemplateModel booleanValue(final boolean value) {
