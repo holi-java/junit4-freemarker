@@ -9,6 +9,7 @@ import com.holi.junit.Test;
 import com.holi.junit.freemarker.blocks.AssertBlock;
 import com.holi.junit.freemarker.blocks.BlockStack;
 import com.holi.junit.freemarker.blocks.BlockStackCollection;
+import com.holi.junit.freemarker.blocks.CurrentEnvironmentActivation;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
 import com.holi.junit.freemarker.blocks.JUnitBlock;
 import com.holi.junit.freemarker.blocks.FixtureCleanUpStack;
@@ -59,7 +60,7 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
   }
 
   private List<? extends JUnitBlock> testBlocks(TestCollector collector, Environment env) {
-    BlockStack stack = new BlockStackCollection(new TopBlockStack(env), new FixtureCleanUpStack(env));
+    BlockStack stack = new BlockStackCollection(new TopBlockStack(env), new CurrentEnvironmentActivation(env), new FixtureCleanUpStack(env));
     ExpectationBuilder expectations = new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder(), env);
     return Arrays.asList(testBlock(collector, expectations, stack), assertBlock(expectations, stack));
   }
@@ -69,6 +70,38 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
       @Override public void add(final Test test) {
         if (compilationCompleted.get()) throw new TestOutOfCompilationStageException(test);
         tests.add(test);
+      }
+
+      private Test testThatDumpInstructionStackEnabled(Test test) {
+        try {
+          test.run();
+          return createPassedTest(test);
+        } catch (Throwable exception) {
+          return createTestFailedWithException(test, exception);
+        }
+      }
+
+      private Test createPassedTest(final Test test) {
+        return new Test() {
+          @Override public String getName() {
+            return test.getName();
+          }
+
+          @Override public void run() throws Throwable {
+          }
+        };
+      }
+
+      private Test createTestFailedWithException(final Test test, final Throwable exception) {
+        return new Test() {
+          @Override public String getName() {
+            return test.getName();
+          }
+
+          @Override public void run() throws Throwable {
+            throw exception;
+          }
+        };
       }
     };
   }

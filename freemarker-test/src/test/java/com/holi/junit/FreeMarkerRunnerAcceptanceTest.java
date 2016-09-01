@@ -143,6 +143,17 @@ public class FreeMarkerRunnerAcceptanceTest {
     result.assertAllTestsPassed();
   }
 
+  @Test public void fixBugCurrentEnvironmentWasNullWhenRunTestBlock() throws Throwable {
+    TestResult result = test(
+    /**/   "<@test name='foo'>\n"
+    /**/ + "  <@assert expected=[1] actual=[1]?sort/>\n"
+    /**/ + "</@test>\n"
+    );
+
+    result.hasRanTests(1);
+    result.assertAllTestsPassed();
+  }
+
   private TestResult test(String snippet) throws Throwable {
     return TestResult.test(scriptName, snippet);
   }
