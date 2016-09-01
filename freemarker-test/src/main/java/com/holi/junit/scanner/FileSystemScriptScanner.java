@@ -4,6 +4,7 @@ import com.holi.junit.Script;
 import com.holi.junit.ScriptScanner;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.junit.runners.model.TestClass;
 
@@ -23,9 +24,10 @@ public class FileSystemScriptScanner implements ScriptScanner {
     return scan(root);
   }
 
-  private List<Script> scan(File root) {
+  private List<Script> scan(File directory) {
+    if (!directory.exists()) return Collections.emptyList();
     List<Script> scripts = new ArrayList<>();
-    for (File file : root.listFiles()) {
+    for (File file : directory.listFiles()) {
       if (file.isDirectory()) {
         scripts.addAll(scan(file));
         continue;

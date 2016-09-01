@@ -11,9 +11,11 @@ import org.junit.runners.model.TestClass;
 
 import static com.holi.junit.freemarker.matchers.ScriptMatchers.scriptThatIs;
 import static com.holi.junit.freemarker.matchers.ScriptMatchers.scriptWithBaseDir;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -23,12 +25,9 @@ public class FileSystemScriptScannerTest {
   private static final TestClass UNUSED_TEST_CLASS = null;
   @Rule
   public final TemporaryFolder folder = new TemporaryFolder();
-  private File baseDir;
-  private FileSystemScriptScanner scanner;
 
-  @Before public void setUp() throws Exception {
-    baseDir = folder.getRoot();
-    scanner = new FileSystemScriptScanner(baseDir, ScriptMatchers.endsWith(".ftl"));
+  private FileSystemScriptScanner scanner(File baseDir) {
+    return new FileSystemScriptScanner(baseDir, ScriptMatchers.endsWith(".ftl"));
   }
 
   @Test public void scanAllMatchedScriptsRecursively() throws Exception {
@@ -36,8 +35,9 @@ public class FileSystemScriptScannerTest {
     folder.newFile("other.txt");
     folder.newFolder("sub");
     folder.newFile("sub/test.ftl");
+    File baseDir = folder.getRoot();
 
-    List<Script> scripts = scanner.scan(UNUSED_TEST_CLASS);
+    List<Script> scripts = scanner(baseDir).scan(UNUSED_TEST_CLASS);
 
     assertThat(scripts, hasSize(2));
     assertThat(scripts, everyItem(scriptWithBaseDir(baseDir)));
@@ -45,5 +45,9 @@ public class FileSystemScriptScannerTest {
     assertThat(scripts, hasItem(scriptThatIs("sub/test.ftl")));
   }
 
+  @Test public void returnEmptyScriptsIfBaseDirNotExists() throws Exception {
+    List<Script> scripts = scanner(new File(folder.getRoot(), "directory is not exists")).scan(UNUSED_TEST_CLASS);
 
+    assertThat(scripts, is(empty()));
+  }
 }
