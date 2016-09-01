@@ -1,5 +1,5 @@
 # JUnit4 FreeMarker Test Framework
-
+> a test framework for freemarker, you can use this project for learning freemark step by step.
 
 ## Test Syntax
 
