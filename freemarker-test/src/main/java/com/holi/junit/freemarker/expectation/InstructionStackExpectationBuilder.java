@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
+
 /**
  * Created by selonj on 16-8-30.
  */
@@ -71,30 +73,38 @@ public class InstructionStackExpectationBuilder implements ExpectationBuilder {
   }
 
   private static class AssertInstructionStackError extends AssertionError {
+    private AssertionError error;
     private InstructionStack instructionStack;
 
     public AssertInstructionStackError(InstructionStack instructionStack, AssertionError error) {
-      super(error.toString());
+      super(error.getMessage());
       setStackTrace(error.getStackTrace());
+      this.error = error;
       this.instructionStack = instructionStack;
     }
 
     public String toString() {
-      return instructionStack.dump(this);
+      String message = getLocalizedMessage();
+      String s = error.getClass().getName();
+      return (message == null ? s+":" : s) + instructionStack.dump(this);
     }
   }
 
   private static class AssertInstructionStackException extends RuntimeException {
+    private final Exception error;
     private InstructionStack instructionStack;
 
     public AssertInstructionStackException(InstructionStack instructionStack, Exception error) {
-      super(error.toString());
+      super(error.getMessage());
       setStackTrace(error.getStackTrace());
+      this.error = error;
       this.instructionStack = instructionStack;
     }
 
     public String toString() {
-      return instructionStack.dump(this);
+      String message = getLocalizedMessage();
+      String s = error.getClass().getName();
+      return (message == null ? s+":" : s) + instructionStack.dump(this);
     }
   }
 }
