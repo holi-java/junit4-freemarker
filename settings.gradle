@@ -1,3 +1,4 @@
 rootProject.name = 'freemarker'
 include 'freemarker-test'
+include 'freemarker-examples'
 
