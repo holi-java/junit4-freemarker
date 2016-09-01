@@ -33,3 +33,8 @@
   <@assert expected='001.23' actual=x?string/>
 </@test>
 
+
+<@test name="extended Java decimal format">
+  <@assert expected='10_003'
+  actual=10002.5?string[",000;; roundingMode=halfUp groupingSeparator=_"]/>
+</@test>
