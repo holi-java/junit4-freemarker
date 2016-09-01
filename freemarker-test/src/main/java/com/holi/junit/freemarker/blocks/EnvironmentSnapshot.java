@@ -7,6 +7,7 @@ import freemarker.core.TemplateClassResolver;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import freemarker.template.TemplateHashModelEx2;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
@@ -70,7 +71,7 @@ public class EnvironmentSnapshot {
 
   public EnvironmentSnapshot(Environment env) throws TemplateModelException {
     this.env = env;
-    namespace = env.getCurrentNamespace().toMap();
+    namespace = toMap(env.getCurrentNamespace().keyValuePairIterator());
     settings = new HashMap<>(env.getSettings());
   }
 
@@ -90,12 +91,6 @@ public class EnvironmentSnapshot {
     for (String key : toList(namespace.keys().iterator())) namespace.remove(key);
   }
 
-  private List<String> toList(TemplateModelIterator itr) throws TemplateModelException {
-    List<String> result = new ArrayList<>();
-    while (itr.hasNext()) result.add(string(itr.next()));
-    return result;
-  }
-
   private void resetNamespaceVariables() {
     env.getCurrentNamespace().putAll(namespace);
   }
@@ -112,7 +107,22 @@ public class EnvironmentSnapshot {
     }
   }
 
-  private String string(TemplateModel key) throws TemplateModelException {
+  private static List<String> toList(TemplateModelIterator itr) throws TemplateModelException {
+    List<String> result = new ArrayList<>();
+    while (itr.hasNext()) result.add(string(itr.next()));
+    return result;
+  }
+
+  private static Map<String, TemplateModel> toMap(TemplateHashModelEx2.KeyValuePairIterator itr) throws TemplateModelException {
+    Map<String, TemplateModel> map = new HashMap<>();
+    while (itr.hasNext()) {
+      TemplateHashModelEx2.KeyValuePair pair = itr.next();
+      map.put(string(pair.getKey()), pair.getValue());
+    }
+    return map;
+  }
+
+  private static String string(TemplateModel key) throws TemplateModelException {
     if (key == null) return null;
     return ((TemplateScalarModel) key).getAsString();
   }
