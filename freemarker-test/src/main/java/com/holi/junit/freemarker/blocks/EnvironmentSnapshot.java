@@ -13,7 +13,9 @@ import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.Version;
 import freemarker.template._TemplateAPI;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -85,11 +87,13 @@ public class EnvironmentSnapshot {
 
   private void clearNamespace() throws TemplateModelException {
     Environment.Namespace namespace = env.getCurrentNamespace();
-    TemplateModelIterator keys = namespace.keys().iterator();
-    while (keys.hasNext()) {
-      String key = key(keys.next());
-      namespace.remove(key);
-    }
+    for (String key : toList(namespace.keys().iterator())) namespace.remove(key);
+  }
+
+  private List<String> toList(TemplateModelIterator itr) throws TemplateModelException {
+    List<String> result = new ArrayList<>();
+    while (itr.hasNext()) result.add(string(itr.next()));
+    return result;
   }
 
   private void resetNamespaceVariables() {
@@ -108,7 +112,7 @@ public class EnvironmentSnapshot {
     }
   }
 
-  private String key(TemplateModel key) throws TemplateModelException {
+  private String string(TemplateModel key) throws TemplateModelException {
     if (key == null) return null;
     return ((TemplateScalarModel) key).getAsString();
   }

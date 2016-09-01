@@ -121,6 +121,17 @@ public class FreeMarkerRunnerAcceptanceTest {
     result.assertAllTestsPassed();
   }
 
+  @Test public void fixBugIfMacroAndAssignmentDefinedBeforeTest() throws Throwable {
+    TestResult result = test(
+  /**/   "<#assign foo='bar'>"
+  /**/ + "<#macro _></#macro>"
+  /**/ + "<@test></@test>"
+    );
+
+    result.hasRanTests(1);
+    result.assertAllTestsPassed();
+  }
+
   private TestResult test(String snippet) throws Throwable {
     return TestResult.test(scriptName, snippet);
   }
