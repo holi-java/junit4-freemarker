@@ -2,7 +2,6 @@ package com.holi.junit.freemarker.expectation.context;
 
 import com.holi.junit.freemarker.expectation.ExpectationContext;
 import freemarker.ext.util.WrapperTemplateModel;
-import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateDateModel;
@@ -57,11 +56,21 @@ class EqualityContext implements ExpectationContext {
     if (value instanceof TemplateScalarModel) return ((TemplateScalarModel) value).getAsString();
     if (value instanceof TemplateBooleanModel) return ((TemplateBooleanModel) value).getAsBoolean();
     if (value instanceof TemplateDateModel) return ((TemplateDateModel) value).getAsDate();
-    if (value instanceof TemplateNumberModel) return new BigDecimal(((TemplateNumberModel) value).getAsNumber().toString());
+    if (value instanceof TemplateNumberModel) return number(((TemplateNumberModel) value).getAsNumber());
     if (value instanceof TemplateCollectionModel) return toList(((TemplateCollectionModel) value).iterator());
     if (value instanceof TemplateSequenceModel) return toList(iterator((TemplateSequenceModel) value));
     if (value instanceof TemplateHashModelEx) return toMap((TemplateHashModelEx) value);
     throw new IllegalArgumentException(value.getClass().getName() + " value not support for assert !");
+  }
+
+  private Number number(Number number) throws TemplateModelException {
+    if (number.equals(Float.NaN)) return Float.NaN;
+    if (number.equals(Double.NaN)) return Double.NaN;
+    if (number.equals(Float.POSITIVE_INFINITY)) return Float.POSITIVE_INFINITY;
+    if (number.equals(Double.POSITIVE_INFINITY)) return Double.POSITIVE_INFINITY;
+    if (number.equals(Float.NEGATIVE_INFINITY)) return Float.NEGATIVE_INFINITY;
+    if (number.equals(Double.NEGATIVE_INFINITY)) return Double.NEGATIVE_INFINITY;
+    return new BigDecimal(number.toString());
   }
 
   private Map toMap(TemplateHashModelEx hash) throws TemplateModelException {

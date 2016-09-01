@@ -70,6 +70,18 @@ public class ExpectationContextTypeSupportsTest {
     assertThat(context(expectedValue(array)).expectedValue(), equalTo((Object) asList(array)));
   }
 
+  @Test public void supportsNaN() throws Exception {
+    assertThat(context(expectedValue(Float.NaN)).expectedValue(), equalTo((Object) Float.NaN));
+    assertThat(context(expectedValue(Double.NaN)).expectedValue(), equalTo((Object) Double.NaN));
+  }
+  @Test public void supportsInfinitives() throws Exception {
+    assertThat(context(expectedValue(Float.NEGATIVE_INFINITY)).expectedValue(), equalTo((Object) Float.NEGATIVE_INFINITY));
+    assertThat(context(expectedValue(Float.POSITIVE_INFINITY)).expectedValue(), equalTo((Object) Float.POSITIVE_INFINITY));
+    assertThat(context(expectedValue(Double.NEGATIVE_INFINITY)).expectedValue(), equalTo((Object) Double.NEGATIVE_INFINITY));
+    assertThat(context(expectedValue(Double.POSITIVE_INFINITY)).expectedValue(), equalTo((Object) Double.POSITIVE_INFINITY));
+  }
+
+
   @Test(expected = IllegalArgumentException.class) public void throwsIllegalArgumentExceptionIfTypeNotSupports() throws Exception {
     context(expectedValue(unsupportedValue())).expectedValue();
   }

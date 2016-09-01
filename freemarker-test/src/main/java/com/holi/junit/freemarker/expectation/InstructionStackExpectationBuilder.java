@@ -74,7 +74,7 @@ public class InstructionStackExpectationBuilder implements ExpectationBuilder {
     private InstructionStack instructionStack;
 
     public AssertInstructionStackError(InstructionStack instructionStack, AssertionError error) {
-      super(error.getMessage());
+      super(error.toString());
       setStackTrace(error.getStackTrace());
       this.instructionStack = instructionStack;
     }
@@ -88,7 +88,7 @@ public class InstructionStackExpectationBuilder implements ExpectationBuilder {
     private InstructionStack instructionStack;
 
     public AssertInstructionStackException(InstructionStack instructionStack, Exception error) {
-      super(error.getMessage());
+      super(error.toString());
       setStackTrace(error.getStackTrace());
       this.instructionStack = instructionStack;
     }
