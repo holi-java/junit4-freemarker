@@ -11,7 +11,7 @@
 
   <@assert expected=time?is_date/>
   <@assert expected=!time?is_datetime/>
-  <@assert expected=!time?is_time/>
+  <@assert expected=time?is_time/>
 </@test>
 
 
@@ -19,6 +19,6 @@
   <#assign time='08:00:00'?datetime('HH:mm:ss')>
 
   <@assert expected=time?is_date/>
-  <@assert expected=!time?is_datetime/>
+  <@assert expected=time?is_datetime/>
   <@assert expected=!time?is_time/>
 </@test>

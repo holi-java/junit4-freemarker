@@ -16,23 +16,22 @@
   <@assert expected='1.234' actual=x?string['#.####']/>
 </@test>
 
-<#list ['x','@','*'] as other>
-  <@test name=other>
-    <@assert expected=other+1 actual=x?string[other]/>
-    <@assert expected=other+other+1 actual=x?string[other+other]/>
-    <@assert expected='1.'+other+other actual=x?string['.'+other+other]/>
-  </@test>
-</#list>
-
-<@test name='format by settings'>
-  <@assert expected='1.234' actual=x?string/>
+<@test name='others'>
+  <@assert expected='@1' actual=x?string['@']/>
+  <@assert expected='@@1' actual=x?string['@@']/>
+  <@assert expected='@1.' actual=x?string['@.']/>
+  <@assert expected='@1.@@' actual=x?string['@.@@']/>
+  <@assert expected='@1.@@@' actual=x?string['@.@@@']/>
 </@test>
 
-<@test name='format by settings'>
+<@test name='format by custom format settings'>
   <#setting number_format='000.##'/>
   <@assert expected='001.23' actual=x?string/>
 </@test>
 
+<@test name='format by default number format'>
+  <@assert expected='1.234' actual=x?string/>
+</@test>
 
 <@test name="extended Java decimal format">
   <@assert expected='10_003'
