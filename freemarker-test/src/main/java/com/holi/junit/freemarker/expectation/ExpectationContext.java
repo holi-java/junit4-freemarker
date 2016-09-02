@@ -2,7 +2,6 @@ package com.holi.junit.freemarker.expectation;
 
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
-import freemarker.template.utility.NullWriter;
 import java.io.IOException;
 import java.io.Writer;
 

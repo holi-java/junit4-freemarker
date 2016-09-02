@@ -1,9 +1,9 @@
 package com.holi.junit.freemarker.expectation;
 
-import com.holi.junit.freemarker.blocks.JUnitBlock;
-import com.holi.junit.utils.Environments;
 import com.holi.junit.freemarker.blocks.Expectation;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
+import com.holi.junit.freemarker.blocks.JUnitBlock;
+import com.holi.junit.utils.Environments;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
@@ -14,12 +14,11 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.ASSERTION;
 import static com.holi.junit.freemarker.matchers.ThrowableMatchers.hasStackTrace;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by selonj on 16-8-30.

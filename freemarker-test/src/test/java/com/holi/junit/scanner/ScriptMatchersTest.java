@@ -3,7 +3,7 @@ package com.holi.junit.scanner;
 import org.junit.Test;
 
 import static com.holi.junit.utils.Files.file;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by selonj on 16-9-1.

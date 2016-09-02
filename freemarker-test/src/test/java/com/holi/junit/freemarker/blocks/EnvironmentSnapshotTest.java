@@ -12,7 +12,7 @@ import static freemarker.core.Configurable.OUTPUT_ENCODING_KEY;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by selonj on 16-9-1.

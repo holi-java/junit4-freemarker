@@ -1,7 +1,7 @@
 package com.holi.junit.freemarker.blocks;
 
-import com.holi.junit.utils.JUnitBlocks;
 import com.holi.junit.utils.Environments;
+import com.holi.junit.utils.JUnitBlocks;
 import freemarker.core.Environment;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
@@ -11,7 +11,7 @@ import static com.holi.junit.utils.TemplateModels.scalar;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by selonj on 16-9-1.

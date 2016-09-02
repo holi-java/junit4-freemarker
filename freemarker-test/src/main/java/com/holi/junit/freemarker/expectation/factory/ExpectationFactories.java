@@ -2,8 +2,6 @@ package com.holi.junit.freemarker.expectation.factory;
 
 import com.holi.junit.freemarker.expectation.ExpectationFactory;
 
-import static org.junit.Assert.assertThat;
-
 /**
  * Created by selonj on 16-8-31.
  */

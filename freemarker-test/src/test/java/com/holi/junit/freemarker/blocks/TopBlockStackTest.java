@@ -1,7 +1,7 @@
 package com.holi.junit.freemarker.blocks;
 
-import com.holi.junit.utils.JUnitBlocks;
 import com.holi.junit.utils.Environments;
+import com.holi.junit.utils.JUnitBlocks;
 import freemarker.core.Environment;
 import freemarker.template.TemplateException;
 import org.junit.Test;

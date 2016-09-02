@@ -2,12 +2,8 @@ package com.holi.junit.freemarker.blocks;
 
 import com.holi.junit.utils.Environments;
 import freemarker.core.Environment;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
-import freemarker.template.utility.NullWriter;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmock.Expectations;
@@ -15,11 +11,6 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 /**
  * Created by selonj on 16-8-30.

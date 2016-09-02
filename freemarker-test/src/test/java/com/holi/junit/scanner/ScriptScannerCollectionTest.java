@@ -12,7 +12,7 @@ import static com.holi.junit.utils.StaticScript.createScript;
 import static com.holi.junit.utils.StaticScriptScanner.scanAs;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by selonj on 16-9-1.

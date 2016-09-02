@@ -7,9 +7,6 @@ import java.util.List;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
-import org.junit.runners.model.InitializationError;
-
-import static org.junit.runner.Description.createSuiteDescription;
 
 /**
  * Created by selonj on 16-8-30.

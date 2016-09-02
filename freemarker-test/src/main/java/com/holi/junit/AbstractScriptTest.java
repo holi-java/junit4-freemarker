@@ -1,6 +1,5 @@
 package com.holi.junit;
 
-import java.util.List;
 import org.junit.internal.AssumptionViolatedException;
 import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.runner.Description;

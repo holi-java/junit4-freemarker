@@ -1,7 +1,5 @@
 package com.holi.junit.utils;
 
-import com.holi.junit.AbstractScriptTest;
-import com.holi.junit.Script;
 import com.holi.junit.ScriptRunner;
 import com.holi.junit.ScriptTest;
 import java.util.ArrayList;
@@ -12,17 +10,16 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 
-import static com.holi.junit.utils.StaticScript.createScript;
 import static com.holi.junit.freemarker.matchers.DescriptionMatchers.testThatIs;
 import static com.holi.junit.freemarker.matchers.FailureMatchers.failureWithDescription;
 import static com.holi.junit.freemarker.matchers.FailureMatchers.failureWithException;
 import static com.holi.junit.freemarker.matchers.ThrowableMatchers.hasStackTrace;
+import static com.holi.junit.utils.StaticScript.createScript;
 import static com.holi.junit.utils.StaticScriptScanner.scanAs;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

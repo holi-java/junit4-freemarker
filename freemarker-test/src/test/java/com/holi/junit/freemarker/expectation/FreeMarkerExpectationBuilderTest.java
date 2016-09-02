@@ -1,7 +1,6 @@
 package com.holi.junit.freemarker.expectation;
 
 import com.holi.junit.freemarker.blocks.Expectation;
-import com.holi.junit.utils.JUnitBlocks;
 import com.holi.junit.utils.TemplateDirectiveBodys;
 import freemarker.template.TemplateDirectiveBody;
 import org.junit.Test;
@@ -16,7 +15,6 @@ import static com.holi.junit.utils.Variables.with;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
 
 /**

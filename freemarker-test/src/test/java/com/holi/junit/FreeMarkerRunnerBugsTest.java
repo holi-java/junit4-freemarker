@@ -3,8 +3,6 @@ package com.holi.junit;
 import com.holi.junit.utils.TestResult;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.containsString;
-
 /**
  * Created by selonj on 16-8-29.
  */
