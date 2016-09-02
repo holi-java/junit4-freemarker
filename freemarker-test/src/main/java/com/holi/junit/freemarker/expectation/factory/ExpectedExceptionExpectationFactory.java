@@ -50,11 +50,16 @@ class ExpectedExceptionExpectationFactory implements ExpectationFactory {
     }
 
     private Class expectedExceptionClass() throws IOException, TemplateModelException {
-      String expectedExpectationClass = (String) context.expectedValue();
+      Object value = context.expectedValue();
+      if(value instanceof Class) return (Class) value;
+      return loadClass((String) value);
+    }
+
+    private Class loadClass(String value) {
       try {
-        return Class.forName(expectedExpectationClass);
+        return Class.forName(value);
       } catch (ClassNotFoundException e) {
-        throw new IllegalArgumentException("Class not found: " + expectedExpectationClass, e);
+        throw new IllegalArgumentException("Class not found: " + value, e);
       }
     }
   }

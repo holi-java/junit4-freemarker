@@ -20,9 +20,12 @@ import com.holi.junit.freemarker.expectation.FreeMarkerExpectationBuilder;
 import com.holi.junit.freemarker.expectation.InstructionStackExpectationBuilder;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.core.Environment;
+import freemarker.ext.beans.BeanModel;
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import freemarker.template.TemplateModel;
 import freemarker.template.utility.NullWriter;
 import java.io.IOException;
 import java.io.Reader;
@@ -55,8 +58,13 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
 
   private Environment compiler(Template template, TestCollector collector) throws TemplateException, IOException {
     Environment env = template.createProcessingEnvironment(null, NullWriter.INSTANCE);
+    env.setVariable("$exception", as(Throwable.class, (BeansWrapper) env.getObjectWrapper()));
     for (JUnitBlock block : testBlocks(collector, env)) env.setGlobalVariable(block.getName(), block);
     return env;
+  }
+
+  private TemplateModel as(final Class<Throwable> exception, BeansWrapper wrapper) {
+    return new BeanModel(exception, wrapper);
   }
 
   private List<? extends JUnitBlock> testBlocks(TestCollector collector, Environment env) {

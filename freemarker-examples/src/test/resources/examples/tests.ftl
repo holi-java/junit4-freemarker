@@ -13,3 +13,7 @@ ${true}
 <@test expected="java.lang.Exception" name="matching exception with parent exception type" >
 ${true}
 </@test>
+
+<@test expected=$exception name="matching test failed with any exception" >
+${true}
+</@test>

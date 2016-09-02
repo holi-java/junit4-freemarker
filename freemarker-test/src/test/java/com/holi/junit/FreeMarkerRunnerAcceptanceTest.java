@@ -121,7 +121,12 @@ public class FreeMarkerRunnerAcceptanceTest {
     result.assertAllTestsPassed();
   }
 
+  @Test public void catchAnyExceptionWhenTestFails() throws Throwable {
+    TestResult result = test("<@test expected=$exception>${bad_expression}</@test>");
 
+    result.hasRanTests(1);
+    result.assertAllTestsPassed();
+  }
 
   private TestResult test(String snippet) throws Throwable {
     return TestResult.test(scriptName, snippet);
