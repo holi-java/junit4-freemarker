@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by selonj on 16-9-1.
  */
-public class FixtureCleanUpStack implements BlockStack {
+public class FixtureCleanerStack implements BlockStack {
 
   private Environment env;
   private ThreadLocal<Map<JUnitBlock, EnvironmentSnapshot>> snapshotStack = new ThreadLocal<Map<JUnitBlock, EnvironmentSnapshot>>() {
@@ -20,7 +20,7 @@ public class FixtureCleanUpStack implements BlockStack {
     }
   };
 
-  public FixtureCleanUpStack(Environment env) {
+  public FixtureCleanerStack(Environment env) {
     this.env = env;
   }
 

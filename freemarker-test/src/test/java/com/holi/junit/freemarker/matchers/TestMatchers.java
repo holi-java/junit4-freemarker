@@ -1,6 +1,6 @@
 package com.holi.junit.freemarker.matchers;
 
-import com.holi.junit.Test;
+import com.holi.junit.freemarker.blocks.Test;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 

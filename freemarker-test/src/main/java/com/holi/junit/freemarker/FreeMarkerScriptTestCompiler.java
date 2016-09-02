@@ -5,20 +5,21 @@ import com.holi.junit.Action;
 import com.holi.junit.Script;
 import com.holi.junit.ScriptTest;
 import com.holi.junit.ScriptTestCompiler;
-import com.holi.junit.Test;
+import com.holi.junit.freemarker.blocks.Test;
 import com.holi.junit.freemarker.blocks.AssertBlock;
-import com.holi.junit.freemarker.expectation.BlockStack;
-import com.holi.junit.freemarker.expectation.stack.BlockStackCollection;
-import com.holi.junit.freemarker.expectation.stack.CurrentEnvironmentActivation;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
-import com.holi.junit.freemarker.expectation.stack.FixtureCleanUpStack;
 import com.holi.junit.freemarker.blocks.JUnitBlock;
 import com.holi.junit.freemarker.blocks.TestBlock;
 import com.holi.junit.freemarker.blocks.TestCollector;
-import com.holi.junit.freemarker.expectation.stack.TopBlockStack;
+import com.holi.junit.freemarker.blocks.TestOutOfCompilationStageException;
+import com.holi.junit.freemarker.expectation.BlockStack;
 import com.holi.junit.freemarker.expectation.ExpectationStackBuilder;
 import com.holi.junit.freemarker.expectation.FreeMarkerExpectationBuilder;
 import com.holi.junit.freemarker.expectation.InstructionStackExpectationBuilder;
+import com.holi.junit.freemarker.expectation.stack.BlockStackCollection;
+import com.holi.junit.freemarker.expectation.stack.EnvironmentActivationStack;
+import com.holi.junit.freemarker.expectation.stack.FixtureCleanerStack;
+import com.holi.junit.freemarker.expectation.stack.NestedBlockCheckingStack;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.core.Environment;
 import freemarker.ext.beans.BeanModel;
@@ -69,9 +70,16 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
   }
 
   private List<? extends JUnitBlock> testBlocks(TestCollector collector, Environment env) {
-    BlockStack stack = new BlockStackCollection(new TopBlockStack(env), new CurrentEnvironmentActivation(env), new FixtureCleanUpStack(env));
-    ExpectationBuilder expectations = createExpectationBuilder(env, stack);
+    ExpectationBuilder expectations = createExpectationBuilder(env);
     return Arrays.asList(testBlock(collector, expectations), assertBlock(expectations));
+  }
+
+  private ExpectationStackBuilder createExpectationBuilder(Environment env) {
+    return createExpectationBuilder(env, createBlockStack(env));
+  }
+
+  private BlockStackCollection createBlockStack(Environment env) {
+    return new BlockStackCollection(new NestedBlockCheckingStack(env), new EnvironmentActivationStack(env), new FixtureCleanerStack(env));
   }
 
   private ExpectationStackBuilder createExpectationBuilder(Environment env, BlockStack stack) {
@@ -114,10 +122,10 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
     return new AbstractScriptTest(script) {
 
       @Override public void run(RunNotifier notifier) {
-        runTest(testAlwaysPassingBlock(), getDescription(), notifier);
+        runTest(testAlwaysPassing(), getDescription(), notifier);
       }
 
-      private Statement testAlwaysPassingBlock() {
+      private Statement testAlwaysPassing() {
         return new Statement() {
           @Override public void evaluate() throws Throwable {
 

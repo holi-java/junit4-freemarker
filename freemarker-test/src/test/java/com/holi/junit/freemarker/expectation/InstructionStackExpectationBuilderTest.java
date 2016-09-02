@@ -1,9 +1,11 @@
 package com.holi.junit.freemarker.expectation;
 
 import com.holi.junit.freemarker.blocks.Expectation;
+import com.holi.junit.freemarker.blocks.ExpectationBlock;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
 import com.holi.junit.freemarker.blocks.JUnitBlock;
 import com.holi.junit.utils.Environments;
+import com.holi.junit.utils.JUnitBlocks;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
@@ -27,7 +29,7 @@ public class InstructionStackExpectationBuilderTest {
   @Rule
   public final JUnitRuleMockery context = new JUnitRuleMockery();
   private final Map params = Collections.singletonMap("expected", "foo");
-  private final JUnitBlock block = context.mock(JUnitBlock.class);
+  private final ExpectationBlock block = JUnitBlocks.blockAs(Expectation.ExpectationType.ASSERTION);
   private final TemplateDirectiveBody body = context.mock(TemplateDirectiveBody.class);
   private final Expectation actualExpectation = context.mock(Expectation.class);
   private final ExpectationBuilder expectationBuilder = context.mock(ExpectationBuilder.class);

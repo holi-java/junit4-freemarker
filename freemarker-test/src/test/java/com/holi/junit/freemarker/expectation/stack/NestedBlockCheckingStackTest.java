@@ -1,7 +1,6 @@
 package com.holi.junit.freemarker.expectation.stack;
 
 import com.holi.junit.freemarker.blocks.JUnitBlock;
-import com.holi.junit.freemarker.expectation.stack.TopBlockStack;
 import com.holi.junit.utils.Environments;
 import com.holi.junit.utils.JUnitBlocks;
 import freemarker.core.Environment;
@@ -19,14 +18,14 @@ import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
 /**
  * Created by selonj on 16-9-1.
  */
-public class TopBlockStackTest {
+public class NestedBlockCheckingStackTest {
   private final Environment env = Environments.as("test.ftl", "valid");
-  private JUnitBlock testBlock = JUnitBlocks.blockNamed("test");
-  private JUnitBlock assertBlock = JUnitBlocks.blockNamed("test");
+  private JUnitBlock testBlock = JUnitBlocks.blockAs("test");
+  private JUnitBlock assertBlock = JUnitBlocks.blockAs("test");
 
-  private TopBlockStack stack = new TopBlockStack(env);
+  private NestedBlockCheckingStack stack = new NestedBlockCheckingStack(env);
 
-  @Test public void throwsTemplateExceptionIfBlockWasInStackWhenPushBlockAgain() throws Exception {
+  @Test public void throwsTemplateExceptionIfNestedWithSameBlocks() throws Exception {
     stack.push(testBlock);
 
     try {
@@ -38,7 +37,7 @@ public class TopBlockStackTest {
     }
   }
 
-  @Test public void diffBlocksCanPushedAtTheSameTime() throws Exception {
+  @Test public void diffBlocksCanBeNested() throws Exception {
     stack.push(testBlock);
     stack.push(assertBlock);
   }

@@ -1,6 +1,7 @@
 package com.holi.junit.freemarker.expectation;
 
 import com.holi.junit.freemarker.blocks.Expectation;
+import com.holi.junit.freemarker.blocks.ExpectationBlock;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
 import com.holi.junit.freemarker.blocks.JUnitBlock;
 import com.holi.junit.utils.JUnitBlocks;
@@ -14,6 +15,7 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.EXCEPTION;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -27,7 +29,7 @@ public class ExpectationStackBuilderTest {
   private final Map params = new HashMap();
   private final TemplateDirectiveBody body = context.mock(TemplateDirectiveBody.class);
   private final BlockStack stack = context.mock(BlockStack.class);
-  private final JUnitBlock testBlock = JUnitBlocks.blockNamed("test");
+  private final ExpectationBlock testBlock = JUnitBlocks.blockAs(EXCEPTION);
   private final Expectation expectation = context.mock(Expectation.class);
   private final ExpectationBuilder original = context.mock(ExpectationBuilder.class);
   private final ExpectationStackBuilder builder = new ExpectationStackBuilder(original, stack);

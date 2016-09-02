@@ -2,14 +2,13 @@ package com.holi.junit.freemarker.expectation.stack;
 
 import com.holi.junit.freemarker.blocks.JUnitBlock;
 import com.holi.junit.freemarker.expectation.BlockStack;
-import com.holi.junit.freemarker.expectation.stack.BlockStackCollection;
 import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.holi.junit.utils.JUnitBlocks.blockNamed;
+import static com.holi.junit.utils.JUnitBlocks.blockAs;
 
 /**
  * Created by selonj on 16-9-1.
@@ -21,7 +20,7 @@ public class BlockStackCollectionTest {
   private final BlockStack last = context.mock(BlockStack.class, "last");
   private final Sequence order = context.sequence("action");
   private final BlockStackCollection stack = new BlockStackCollection(first, last);
-  private JUnitBlock block = blockNamed("anything");
+  private JUnitBlock block = blockAs("anything");
 
   @Test public void pushInSequence() throws Exception {
     context.checking(new Expectations() {{

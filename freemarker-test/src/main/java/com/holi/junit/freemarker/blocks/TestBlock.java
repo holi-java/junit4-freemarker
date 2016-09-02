@@ -1,7 +1,5 @@
 package com.holi.junit.freemarker.blocks;
 
-import com.holi.junit.Test;
-import com.holi.junit.freemarker.TestOutOfCompilationStageException;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
@@ -15,21 +13,12 @@ import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.EXCEP
 /**
  * Created by selonj on 16-8-31.
  */
-public class TestBlock implements JUnitBlock, TemplateDirectiveModel {
+public class TestBlock extends ExpectationBlock implements TemplateDirectiveModel {
   private TestCollector collector;
-  private ExpectationBuilder expectations;
 
   public TestBlock(TestCollector collector, ExpectationBuilder expectations) {
+    super(EXCEPTION, expectations);
     this.collector = collector;
-    this.expectations = expectations;
-  }
-
-  public String getName() {
-    return EXCEPTION.blockName();
-  }
-
-  @Override public Expectation.ExpectationType getExpectationType() {
-    return EXCEPTION;
   }
 
   @Override public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
@@ -42,8 +31,7 @@ public class TestBlock implements JUnitBlock, TemplateDirectiveModel {
   }
 
   private Test createTest(final Map params, final TemplateDirectiveBody body) throws TemplateException {
-    final TestBlock self = this;
-    final Expectation expectation = expectations.create(self, params, body);
+    final Expectation expectation = createExpectation(params, body);
     return new Test() {
 
       @Override public String getName() {

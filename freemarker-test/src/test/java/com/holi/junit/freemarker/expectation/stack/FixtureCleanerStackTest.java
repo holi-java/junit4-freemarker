@@ -1,7 +1,6 @@
 package com.holi.junit.freemarker.expectation.stack;
 
 import com.holi.junit.freemarker.blocks.JUnitBlock;
-import com.holi.junit.freemarker.expectation.stack.FixtureCleanUpStack;
 import com.holi.junit.utils.Environments;
 import com.holi.junit.utils.JUnitBlocks;
 import freemarker.core.Environment;
@@ -18,11 +17,11 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by selonj on 16-9-1.
  */
-public class FixtureCleanUpStackTest {
-  private final JUnitBlock testBlock = JUnitBlocks.blockNamed("test");
-  private final JUnitBlock assertBlock = JUnitBlocks.blockNamed("assert");
+public class FixtureCleanerStackTest {
+  private final JUnitBlock testBlock = JUnitBlocks.blockAs("test");
+  private final JUnitBlock assertBlock = JUnitBlocks.blockAs("assert");
   private final Environment env = Environments.as("test.ftl", "valid");
-  private final FixtureCleanUpStack stack = new FixtureCleanUpStack(env);
+  private final FixtureCleanerStack stack = new FixtureCleanerStack(env);
 
   @Test public void resetNamespaceAfterBlockPop() throws Exception {
     stack.push(testBlock);

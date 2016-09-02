@@ -35,10 +35,11 @@ abstract public class AbstractScriptTest implements ScriptTest {
   }
 
   protected String testName(Script script) {
-    return dropExtension(script.getName());
+    return baseName(script);
   }
 
-  private String dropExtension(String name) {
+  private String baseName(Script script) {
+    String name = script.getName();
     int extPos = name.lastIndexOf('.');
     if (extPos == -1) return name;
     return name.substring(0, extPos);

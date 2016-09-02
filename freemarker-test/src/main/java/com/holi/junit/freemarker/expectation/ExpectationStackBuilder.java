@@ -1,6 +1,7 @@
 package com.holi.junit.freemarker.expectation;
 
 import com.holi.junit.freemarker.blocks.Expectation;
+import com.holi.junit.freemarker.blocks.ExpectationBlock;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
 import com.holi.junit.freemarker.blocks.JUnitBlock;
 import freemarker.template.TemplateDirectiveBody;
@@ -20,7 +21,7 @@ public class ExpectationStackBuilder implements ExpectationBuilder {
     this.stack = stack;
   }
 
-  @Override public Expectation create(final JUnitBlock block, final Map params, final TemplateDirectiveBody body) throws TemplateException {
+  @Override public Expectation create(final ExpectationBlock block, final Map params, final TemplateDirectiveBody body) throws TemplateException {
     return createExpectationThatCheckingAroundStack(block, expectations.create(block, params, body));
   }
 

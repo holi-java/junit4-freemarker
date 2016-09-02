@@ -1,4 +1,4 @@
-package com.holi.junit;
+package com.holi.junit.scanner;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

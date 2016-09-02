@@ -1,6 +1,4 @@
-package com.holi.junit.freemarker;
-
-import com.holi.junit.Test;
+package com.holi.junit.freemarker.blocks;
 
 /**
  * Created by selonj on 16-9-2.

@@ -74,7 +74,7 @@ class EqualityContext implements ExpectationContext {
   }
 
   private Map toMap(TemplateHashModelEx hash) throws TemplateModelException {
-    HashMap map = new HashMap();
+    Map<Object,Object> map = new HashMap<>();
     TemplateModelIterator keys = hash.keys().iterator();
     TemplateModelIterator values = hash.values().iterator();
     while (keys.hasNext()) map.put(unwrap(keys.next()), unwrap(values.next()));

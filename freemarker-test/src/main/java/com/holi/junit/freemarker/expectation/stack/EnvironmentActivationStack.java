@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * Created by selonj on 16-9-2.
  */
-public class CurrentEnvironmentActivation implements BlockStack {
+public class EnvironmentActivationStack implements BlockStack {
   private final Environment env;
   private static final Method SET_CURRENT_ENVIRONMENT = getSetCurrentEnvironmentMethod();
   private ThreadLocal<Environment> last = new ThreadLocal<>();
@@ -30,7 +30,7 @@ public class CurrentEnvironmentActivation implements BlockStack {
     return null;
   }
 
-  public CurrentEnvironmentActivation(Environment env) {
+  public EnvironmentActivationStack(Environment env) {
     this.env = env;
   }
 

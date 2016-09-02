@@ -1,6 +1,5 @@
 package com.holi.junit.scanner;
 
-import com.holi.junit.Scanner;
 import com.holi.junit.Script;
 import com.holi.junit.ScriptScanner;
 import java.util.ArrayList;

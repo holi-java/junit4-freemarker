@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by selonj on 16-9-1.
  */
-public class TopBlockStack implements BlockStack {
+public class NestedBlockCheckingStack implements BlockStack {
   private final Environment env;
   private ThreadLocal<Set<JUnitBlock>> stackLocal = new ThreadLocal<Set<JUnitBlock>>() {
     @Override protected Set<JUnitBlock> initialValue() {
@@ -18,7 +18,7 @@ public class TopBlockStack implements BlockStack {
     }
   };
 
-  public TopBlockStack(Environment env) {
+  public NestedBlockCheckingStack(Environment env) {
     this.env = env;
   }
 

@@ -1,5 +1,6 @@
 package com.holi.junit;
 
+import com.holi.junit.scanner.Scanner;
 import com.holi.junit.utils.StaticScript;
 import com.holi.junit.utils.TestResult;
 import org.junit.Test;

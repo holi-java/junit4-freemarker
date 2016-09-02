@@ -21,11 +21,11 @@ public class FileSystemScriptScanner implements ScriptScanner {
   }
 
   @Override public List<Script> scan(TestClass testClass) {
+    if (!root.exists()) return Collections.emptyList();
     return scan(root);
   }
 
   private List<Script> scan(File directory) {
-    if (!directory.exists()) return Collections.emptyList();
     List<Script> scripts = new ArrayList<>();
     for (File file : directory.listFiles()) {
       if (file.isDirectory()) {
