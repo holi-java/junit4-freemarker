@@ -1,5 +1,6 @@
-package com.holi.junit.freemarker.blocks;
+package com.holi.junit.freemarker.expectation;
 
+import com.holi.junit.freemarker.blocks.JUnitBlock;
 import freemarker.template.TemplateException;
 
 /**

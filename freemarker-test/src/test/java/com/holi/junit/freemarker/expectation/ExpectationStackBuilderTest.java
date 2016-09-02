@@ -1,6 +1,5 @@
 package com.holi.junit.freemarker.expectation;
 
-import com.holi.junit.freemarker.blocks.BlockStack;
 import com.holi.junit.freemarker.blocks.Expectation;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
 import com.holi.junit.freemarker.blocks.JUnitBlock;

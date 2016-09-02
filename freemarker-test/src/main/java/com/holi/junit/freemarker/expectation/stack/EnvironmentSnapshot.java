@@ -1,4 +1,4 @@
-package com.holi.junit.freemarker.blocks;
+package com.holi.junit.freemarker.expectation.stack;
 
 import freemarker.core.ArithmeticEngine;
 import freemarker.core.Configurable;

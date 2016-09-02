@@ -1,5 +1,8 @@
-package com.holi.junit.freemarker.blocks;
+package com.holi.junit.freemarker.expectation.stack;
 
+import com.holi.junit.freemarker.blocks.JUnitBlock;
+import com.holi.junit.freemarker.expectation.BlockStack;
+import com.holi.junit.freemarker.expectation.stack.BlockStackCollection;
 import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.integration.junit4.JUnitRuleMockery;

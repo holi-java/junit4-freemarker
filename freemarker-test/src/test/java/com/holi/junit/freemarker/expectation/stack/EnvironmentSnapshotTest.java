@@ -1,5 +1,6 @@
-package com.holi.junit.freemarker.blocks;
+package com.holi.junit.freemarker.expectation.stack;
 
+import com.holi.junit.freemarker.expectation.stack.EnvironmentSnapshot;
 import com.holi.junit.utils.Environments;
 import freemarker.core.Environment;
 import freemarker.template.TemplateException;
