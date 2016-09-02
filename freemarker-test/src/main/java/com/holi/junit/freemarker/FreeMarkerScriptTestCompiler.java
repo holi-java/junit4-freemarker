@@ -71,38 +71,6 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
         if (compilationCompleted.get()) throw new TestOutOfCompilationStageException(test);
         tests.add(test);
       }
-
-      private Test testThatDumpInstructionStackEnabled(Test test) {
-        try {
-          test.run();
-          return createPassedTest(test);
-        } catch (Throwable exception) {
-          return createTestFailedWithException(test, exception);
-        }
-      }
-
-      private Test createPassedTest(final Test test) {
-        return new Test() {
-          @Override public String getName() {
-            return test.getName();
-          }
-
-          @Override public void run() throws Throwable {
-          }
-        };
-      }
-
-      private Test createTestFailedWithException(final Test test, final Throwable exception) {
-        return new Test() {
-          @Override public String getName() {
-            return test.getName();
-          }
-
-          @Override public void run() throws Throwable {
-            throw exception;
-          }
-        };
-      }
     };
   }
 
