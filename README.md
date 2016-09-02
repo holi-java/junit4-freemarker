@@ -32,4 +32,4 @@ public class FreeMarkerRunnerExample {
 
 ## Test Result
 
-![test result](etc/screenshorts.png)
+![test result](etc/screenshot.png)
