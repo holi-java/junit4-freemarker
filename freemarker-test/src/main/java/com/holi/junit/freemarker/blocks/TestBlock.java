@@ -3,7 +3,6 @@ package com.holi.junit.freemarker.blocks;
 import com.holi.junit.Test;
 import com.holi.junit.freemarker.TestOutOfCompilationStageException;
 import freemarker.core.Environment;
-import freemarker.template.Template;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
@@ -19,16 +18,18 @@ import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.EXCEP
 public class TestBlock implements JUnitBlock, TemplateDirectiveModel {
   private TestCollector collector;
   private ExpectationBuilder expectations;
-  private BlockStack stack;
 
-  public TestBlock(TestCollector collector, ExpectationBuilder expectations, BlockStack stack) {
+  public TestBlock(TestCollector collector, ExpectationBuilder expectations) {
     this.collector = collector;
     this.expectations = expectations;
-    this.stack = stack;
   }
 
   public String getName() {
     return EXCEPTION.blockName();
+  }
+
+  @Override public Expectation.ExpectationType getExpectationType() {
+    return EXCEPTION;
   }
 
   @Override public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
@@ -42,20 +43,15 @@ public class TestBlock implements JUnitBlock, TemplateDirectiveModel {
 
   private Test createTest(final Map params, final TemplateDirectiveBody body) throws TemplateException {
     final TestBlock self = this;
+    final Expectation expectation = expectations.create(self, params, body);
     return new Test() {
-      private Expectation expectation = expectations.create(EXCEPTION, params, body);
 
       @Override public String getName() {
         return testName(params);
       }
 
       @Override public void run() throws Throwable {
-        stack.push(self);
-        try {
-          expectation.checking();
-        } finally {
-          stack.pop(self);
-        }
+        expectation.checking();
       }
     };
   }

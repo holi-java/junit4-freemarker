@@ -16,6 +16,7 @@ import com.holi.junit.freemarker.blocks.FixtureCleanUpStack;
 import com.holi.junit.freemarker.blocks.TestBlock;
 import com.holi.junit.freemarker.blocks.TestCollector;
 import com.holi.junit.freemarker.blocks.TopBlockStack;
+import com.holi.junit.freemarker.expectation.ExpectationStackBuilder;
 import com.holi.junit.freemarker.expectation.FreeMarkerExpectationBuilder;
 import com.holi.junit.freemarker.expectation.InstructionStackExpectationBuilder;
 import freemarker.cache.FileTemplateLoader;
@@ -69,11 +70,15 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
 
   private List<? extends JUnitBlock> testBlocks(TestCollector collector, Environment env) {
     BlockStack stack = new BlockStackCollection(new TopBlockStack(env), new CurrentEnvironmentActivation(env), new FixtureCleanUpStack(env));
-    ExpectationBuilder expectations = new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder(), env);
-    return Arrays.asList(testBlock(collector, expectations, stack), assertBlock(expectations, stack));
+    ExpectationBuilder expectations = createExpectationBuilder(env, stack);
+    return Arrays.asList(testBlock(collector, expectations), assertBlock(expectations));
   }
 
-  private TestCollector collectTestsOnCompilationStage(final ArrayList<Test> tests, final AtomicBoolean compilationCompleted) {
+  private ExpectationStackBuilder createExpectationBuilder(Environment env, BlockStack stack) {
+    return new ExpectationStackBuilder(new InstructionStackExpectationBuilder(new FreeMarkerExpectationBuilder(), env), stack);
+  }
+
+  private TestCollector collectTestsOnCompilationStage(final List<Test> tests, final AtomicBoolean compilationCompleted) {
     return new TestCollector() {
       @Override public void add(final Test test) {
         if (compilationCompleted.get()) throw new TestOutOfCompilationStageException(test);
@@ -97,12 +102,12 @@ public class FreeMarkerScriptTestCompiler implements ScriptTestCompiler {
     return configuration;
   }
 
-  private AssertBlock assertBlock(ExpectationBuilder expectations, BlockStack stack) {
-    return new AssertBlock(expectations, stack);
+  private AssertBlock assertBlock(ExpectationBuilder expectations) {
+    return new AssertBlock(expectations);
   }
 
-  private TestBlock testBlock(TestCollector collector, ExpectationBuilder expectations, BlockStack stack) {
-    return new TestBlock(collector, expectations, stack);
+  private TestBlock testBlock(TestCollector collector, ExpectationBuilder expectations) {
+    return new TestBlock(collector, expectations);
   }
 
   private ScriptTest createGlobalScriptTest(final Script script) {

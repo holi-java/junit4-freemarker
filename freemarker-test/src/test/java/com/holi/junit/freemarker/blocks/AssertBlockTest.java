@@ -1,5 +1,6 @@
 package com.holi.junit.freemarker.blocks;
 
+import com.holi.junit.utils.Environments;
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -26,49 +27,26 @@ import static org.junit.Assert.fail;
 public class AssertBlockTest {
   private static final TemplateModel[] UNUSED_LOOPVARS = new TemplateModel[0];
   private final Map params = new HashMap();
-  private final Environment env = errorEnvironment();
+  private final Environment env = Environments.as("test.ftl", "");
 
   @Rule
   public final JUnitRuleMockery context = new JUnitRuleMockery();
   private final ExpectationBuilder expectationBuilder = context.mock(ExpectationBuilder.class);
   private final Expectation expectation = context.mock(Expectation.class);
-  private final BlockStack stack = context.mock(BlockStack.class);
   private final TemplateDirectiveBody body = context.mock(TemplateDirectiveBody.class);
-  private final AssertBlock assertBlock = new AssertBlock(expectationBuilder, stack);
+  private final AssertBlock assertBlock = new AssertBlock(expectationBuilder);
 
   @Before public void init() throws Throwable {
     context.checking(new Expectations() {{
-      ignoring(stack);
-      allowing(expectationBuilder).create(Expectation.ExpectationType.ASSERTION, params, body); will(returnValue(expectation));
+      allowing(expectationBuilder).create(assertBlock, params, body); will(returnValue(expectation));
     }});
   }
 
-  @Test public void checkingCurrentExpectation() throws Throwable {
+  @Test public void checkingExpectationImmediately() throws Throwable {
     context.checking(new Expectations() {{
       oneOf(expectation).checking();
     }});
 
     assertBlock.execute(env, params, UNUSED_LOOPVARS, body);
-  }
-
-  @Test public void translatesExceptionWhenCheckExpectationFails() throws Throwable {
-    try {
-      env.process();
-      fail("should failed");
-    } catch (TemplateException expected) {
-      assertThat(expected.getBlamedExpressionString(), equalTo("assert"));
-      assertThat(expected.getTemplateSourceName(), containsString("test.ftl"));
-      assertThat(expected.getFTLInstructionStack(), containsString("\"test.ftl\" at line 1, column 1"));
-    }
-  }
-
-  private Environment errorEnvironment() {
-    try {
-      Configuration configuration = new Configuration(Configuration.VERSION_2_3_25);
-      configuration.setLogTemplateExceptions(false);
-      return new Template("test.ftl", "<@assert expected=foo actual=bar/>", configuration).createProcessingEnvironment(null, NullWriter.INSTANCE);
-    } catch (Exception ex) {
-      throw new Error(ex);
-    }
   }
 }

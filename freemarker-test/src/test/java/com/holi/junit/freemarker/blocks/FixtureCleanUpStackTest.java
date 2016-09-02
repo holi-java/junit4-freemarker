@@ -1,9 +1,8 @@
 package com.holi.junit.freemarker.blocks;
 
-import com.holi.junit.utils.Blocks;
+import com.holi.junit.utils.JUnitBlocks;
 import com.holi.junit.utils.Environments;
 import freemarker.core.Environment;
-import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import org.junit.Test;
@@ -18,8 +17,8 @@ import static org.junit.Assert.*;
  * Created by selonj on 16-9-1.
  */
 public class FixtureCleanUpStackTest {
-  private final JUnitBlock testBlock = Blocks.blockNamed("test");
-  private final JUnitBlock assertBlock = Blocks.blockNamed("assert");
+  private final JUnitBlock testBlock = JUnitBlocks.blockNamed("test");
+  private final JUnitBlock assertBlock = JUnitBlocks.blockNamed("assert");
   private final Environment env = Environments.as("test.ftl", "valid");
   private final FixtureCleanUpStack stack = new FixtureCleanUpStack(env);
 

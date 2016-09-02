@@ -1,5 +1,6 @@
 package com.holi.junit.freemarker.blocks;
 
+import com.holi.junit.freemarker.blocks.Expectation.ExpectationType;
 import freemarker.template.TemplateModel;
 
 /**
@@ -7,4 +8,6 @@ import freemarker.template.TemplateModel;
  */
 public interface JUnitBlock extends TemplateModel {
   String getName();
+
+  ExpectationType getExpectationType();
 }

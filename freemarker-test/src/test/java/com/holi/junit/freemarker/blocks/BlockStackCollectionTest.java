@@ -1,14 +1,12 @@
 package com.holi.junit.freemarker.blocks;
 
-import com.holi.junit.utils.Blocks;
 import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.holi.junit.utils.Blocks.blockNamed;
-import static org.junit.Assert.*;
+import static com.holi.junit.utils.JUnitBlocks.blockNamed;
 
 /**
  * Created by selonj on 16-9-1.

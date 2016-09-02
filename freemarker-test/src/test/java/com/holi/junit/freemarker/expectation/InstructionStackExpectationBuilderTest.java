@@ -1,5 +1,6 @@
 package com.holi.junit.freemarker.expectation;
 
+import com.holi.junit.freemarker.blocks.JUnitBlock;
 import com.holi.junit.utils.Environments;
 import com.holi.junit.freemarker.blocks.Expectation;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
@@ -27,6 +28,7 @@ public class InstructionStackExpectationBuilderTest {
   @Rule
   public final JUnitRuleMockery context = new JUnitRuleMockery();
   private final Map params = Collections.singletonMap("expected", "foo");
+  private final JUnitBlock block = context.mock(JUnitBlock.class);
   private final TemplateDirectiveBody body = context.mock(TemplateDirectiveBody.class);
   private final Expectation actualExpectation = context.mock(Expectation.class);
   private final ExpectationBuilder expectationBuilder = context.mock(ExpectationBuilder.class);
@@ -35,11 +37,11 @@ public class InstructionStackExpectationBuilderTest {
 
   @Test public void dumpStackTraceWithInstructionStackWhenExpectationFails() throws Exception {
     context.checking(new Expectations() {{
-      allowing(expectationBuilder).create(ASSERTION, params, body); will(returnValue(actualExpectation));
+      allowing(expectationBuilder).create(block, params, body); will(returnValue(actualExpectation));
       oneOf(actualExpectation).checking(); will(throwException(new AssertionError("error")));
     }});
 
-    Expectation expectation = expectations.create(ASSERTION, params, body);
+    Expectation expectation = expectations.create(block, params, body);
 
     try {
       expectation.checking();
@@ -54,11 +56,11 @@ public class InstructionStackExpectationBuilderTest {
     final TemplateException error = new TemplateException("error", env);
     context.checking(new Expectations() {{
 
-      allowing(expectationBuilder).create(ASSERTION, params, body); will(returnValue(actualExpectation));
+      allowing(expectationBuilder).create(block, params, body); will(returnValue(actualExpectation));
       oneOf(actualExpectation).checking(); will(throwException(error));
     }});
 
-    Expectation expectation = expectations.create(ASSERTION, params, body);
+    Expectation expectation = expectations.create(block, params, body);
 
     try {
       expectation.checking();

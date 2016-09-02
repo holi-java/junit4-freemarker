@@ -1,15 +1,14 @@
 package com.holi.junit.freemarker.expectation;
 
 import com.holi.junit.freemarker.blocks.Expectation;
-import freemarker.core.Environment;
+import com.holi.junit.utils.JUnitBlocks;
+import com.holi.junit.utils.TemplateDirectiveBodys;
 import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateException;
-import java.io.IOException;
-import java.io.Writer;
 import org.junit.Test;
 
 import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.ASSERTION;
 import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.EXCEPTION;
+import static com.holi.junit.utils.JUnitBlocks.blockAs;
 import static com.holi.junit.utils.Variables.actualValue;
 import static com.holi.junit.utils.Variables.expectedValue;
 import static com.holi.junit.utils.Variables.testName;
@@ -25,15 +24,14 @@ import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
  */
 public class FreeMarkerExpectationBuilderTest {
   private static final TemplateDirectiveBody NO_BODY = null;
-  private static final Environment UNUSED_ENV = null;
   private final FreeMarkerExpectationBuilder expectations = new FreeMarkerExpectationBuilder();
 
   @Test public void satisfiedIfActualValueEqualsToExpectedValue() throws Exception {
-    expectations.create(ASSERTION, with(expectedValue("foo"), actualValue("foo")), NO_BODY).checking();
+    expectations.create(blockAs(ASSERTION), with(expectedValue("foo"), actualValue("foo")), NO_BODY).checking();
   }
 
   @Test public void throwsAssertionErrorIfActualValueNotEqualsToExpectedValue() throws Exception {
-    Expectation expectation = expectations.create(ASSERTION, with(expectedValue("foo"), actualValue("bar")), NO_BODY);
+    Expectation expectation = expectations.create(blockAs(ASSERTION), with(expectedValue("foo"), actualValue("bar")), NO_BODY);
     try {
       expectation.checking();
       fail("should failed");
@@ -44,12 +42,12 @@ public class FreeMarkerExpectationBuilderTest {
   }
 
   @Test public void satisfiedIfExpectedValueSatisfied() throws Exception {
-    expectations.create(ASSERTION, with(expectedValue(true)), NO_BODY).checking();
+    expectations.create(blockAs(ASSERTION), with(expectedValue(true)), NO_BODY).checking();
   }
 
   @Test public void throwsClassCastExceptionIfExpectedValueNotABooleanExpressionWhenTestExpectedValueAsPredicate() throws Exception {
     try {
-      expectations.create(ASSERTION, with(expectedValue("other type")), NO_BODY).checking();
+      expectations.create(blockAs(ASSERTION), with(expectedValue("other type")), NO_BODY).checking();
       fail("should failed");
     } catch (ClassCastException expected) {
       assertTrue(true);
@@ -57,11 +55,11 @@ public class FreeMarkerExpectationBuilderTest {
   }
 
   @Test public void satisfiedIfExpectedValueEqualsToBodyAsString() throws Exception {
-    expectations.create(ASSERTION, with(expectedValue("foo")), bodyWithString("foo")).checking();
+    expectations.create(blockAs(ASSERTION), with(expectedValue("foo")), TemplateDirectiveBodys.bodyWithString("foo")).checking();
   }
 
   @Test public void throwsClassCastExceptionIfExpectedValueNotAStringWhenMatchingExpectedValueEqualsToBodyAsString() throws Exception {
-    Expectation expectation = expectations.create(ASSERTION, with(expectedValue(true)), bodyWithString("true"));
+    Expectation expectation = expectations.create(blockAs(ASSERTION), with(expectedValue(true)), TemplateDirectiveBodys.bodyWithString("true"));
 
     try {
       expectation.checking();
@@ -73,7 +71,7 @@ public class FreeMarkerExpectationBuilderTest {
 
   @Test public void reportsHelpMessageWhenAssertBlockWithInvalidForm() throws Exception {
     try {
-      expectations.create(ASSERTION, with(expectedValue("foo"), actualValue("foo")), bodyWithString("body"));
+      expectations.create(blockAs(ASSERTION), with(expectedValue("foo"), actualValue("foo")), TemplateDirectiveBodys.bodyWithString("body"));
       fail("should failed");
     } catch (IllegalArgumentException expected) {
       assertThat(expected, hasMessage(containsString("<@assert expected=foo actual=bar/>")));
@@ -83,25 +81,25 @@ public class FreeMarkerExpectationBuilderTest {
   }
 
   @Test public void satisfiedIfTestRanWithNoExceptionFails() throws Exception {
-    expectations.create(EXCEPTION, with(testName("test")), bodyWithString("body")).checking();
+    expectations.create(blockAs(EXCEPTION), with(testName("test")), TemplateDirectiveBodys.bodyWithString("body")).checking();
   }
 
   @Test public void satisfiedIfTestFailsWithExpectedException() throws Exception {
     IllegalStateException exception = new IllegalStateException();
-    Expectation expectation = expectations.create(EXCEPTION, with(expectedValue(exception.getClass().getName())), throwExceptionWhenEvalBody(exception));
+    Expectation expectation = expectations.create(blockAs(EXCEPTION), with(expectedValue(exception.getClass().getName())), TemplateDirectiveBodys.throwExceptionWhenEvalBody(exception));
 
     expectation.checking();
   }
 
   @Test public void satisfiedIfTestFailsWithSubtypeOfExpectedException() throws Exception {
     IllegalStateException exception = new IllegalStateException();
-    Expectation expectation = expectations.create(EXCEPTION, with(expectedValue("java.lang.Exception")), throwExceptionWhenEvalBody(exception));
+    Expectation expectation = expectations.create(blockAs(EXCEPTION), with(expectedValue("java.lang.Exception")), TemplateDirectiveBodys.throwExceptionWhenEvalBody(exception));
 
     expectation.checking();
   }
 
   @Test public void throwsAssertionErrorIfExpectedExceptionMismatched() throws Exception {
-    Expectation expectation = expectations.create(EXCEPTION, with(expectedValue("java.lang.Exception")), bodyWithString("success"));
+    Expectation expectation = expectations.create(blockAs(EXCEPTION), with(expectedValue("java.lang.Exception")), TemplateDirectiveBodys.bodyWithString("success"));
 
     try {
       expectation.checking();
@@ -110,22 +108,6 @@ public class FreeMarkerExpectationBuilderTest {
       assertThat(expected, hasMessage(containsString("Expected: is an instance of java.lang.Exception")));
       assertThat(expected, hasMessage(containsString("but: null")));
     }
-  }
-
-  private TemplateDirectiveBody throwExceptionWhenEvalBody(final RuntimeException exception) {
-    return new TemplateDirectiveBody() {
-      @Override public void render(Writer out) throws TemplateException, IOException {
-        throw exception;
-      }
-    };
-  }
-
-  private TemplateDirectiveBody bodyWithString(final String content) {
-    return new TemplateDirectiveBody() {
-      @Override public void render(Writer out) throws TemplateException, IOException {
-        out.write(content);
-      }
-    };
   }
 
   private void fail(String message) {

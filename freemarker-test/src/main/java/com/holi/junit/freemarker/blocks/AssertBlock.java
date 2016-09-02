@@ -15,23 +15,20 @@ import static com.holi.junit.freemarker.blocks.Expectation.ExpectationType.ASSER
  */
 public class AssertBlock implements JUnitBlock, TemplateDirectiveModel {
   private ExpectationBuilder expectations;
-  private BlockStack stack;
 
-  public AssertBlock(ExpectationBuilder expectations, BlockStack stack) {
+  public AssertBlock(ExpectationBuilder expectations) {
     this.expectations = expectations;
-    this.stack = stack;
   }
 
   @Override public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
-    stack.push(this);
-    try {
-      expectations.create(ASSERTION, params, body).checking();
-    } finally {
-      stack.pop(this);
-    }
+    expectations.create(this, params, body).checking();
   }
 
   public String getName() {
     return ASSERTION.blockName();
+  }
+
+  @Override public Expectation.ExpectationType getExpectationType() {
+    return ASSERTION;
   }
 }

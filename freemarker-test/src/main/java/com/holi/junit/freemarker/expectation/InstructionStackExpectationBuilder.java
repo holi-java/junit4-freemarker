@@ -3,6 +3,7 @@ package com.holi.junit.freemarker.expectation;
 import com.holi.junit.freemarker.blocks.Expectation;
 import com.holi.junit.freemarker.blocks.Expectation.ExpectationType;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;
+import com.holi.junit.freemarker.blocks.JUnitBlock;
 import freemarker.core.Environment;
 import freemarker.core.TemplateElement;
 import freemarker.core._CoreAPI;
@@ -11,8 +12,6 @@ import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
-
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
 /**
  * Created by selonj on 16-8-30.
@@ -26,19 +25,19 @@ public class InstructionStackExpectationBuilder implements ExpectationBuilder {
     this.env = env;
   }
 
-  @Override public Expectation create(ExpectationType type, final Map params, final TemplateDirectiveBody body) throws TemplateException {
-    return dumpInstructionStackWhenExpectationFails(type, params, body);
+  @Override public Expectation create(JUnitBlock block, final Map params, final TemplateDirectiveBody body) throws TemplateException {
+    return dumpInstructionStackWhenExpectationFails(block, params, body);
   }
 
-  private Expectation dumpInstructionStackWhenExpectationFails(final ExpectationType type, final Map params, final TemplateDirectiveBody body) {
-    return createExpectationWithInstructionStack(type, params, body, instructionStack(env));
+  private Expectation dumpInstructionStackWhenExpectationFails(final JUnitBlock block, final Map params, final TemplateDirectiveBody body) {
+    return createExpectationWithInstructionStack(block, params, body, instructionStack(env));
   }
 
-  private Expectation createExpectationWithInstructionStack(final ExpectationType type, final Map params, final TemplateDirectiveBody body, final InstructionStack instructionStack) {
+  private Expectation createExpectationWithInstructionStack(final JUnitBlock block, final Map params, final TemplateDirectiveBody body, final InstructionStack instructionStack) {
     return new Expectation() {
       @Override public void checking() throws TemplateException, IOException {
         try {
-          expectations.create(type, params, body).checking();
+          expectations.create(block, params, body).checking();
         } catch (AssertInstructionStackException | AssertInstructionStackError error) {
           throw error;
         } catch (AssertionError error) {

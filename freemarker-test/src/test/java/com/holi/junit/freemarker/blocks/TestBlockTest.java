@@ -8,10 +8,10 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static com.holi.junit.freemarker.matchers.TestMatchers.testThatIs;
 import static com.holi.junit.utils.Variables.testName;
 import static com.holi.junit.utils.Variables.testNameMissing;
 import static com.holi.junit.utils.Variables.with;
-import static com.holi.junit.freemarker.matchers.TestMatchers.testThatIs;
 
 /**
  * Created by selonj on 16-8-31.
@@ -24,11 +24,9 @@ public class TestBlockTest {
   public final JUnitRuleMockery context = new JUnitRuleMockery();
   private final ExpectationBuilder expectations = context.mock(ExpectationBuilder.class);
   private final TestCollector testCollector = context.mock(TestCollector.class);
-  private final BlockStack stack = context.mock(BlockStack.class);
-  private final TestBlock testBlock = new TestBlock(testCollector, expectations, stack);
+  private final TestBlock testBlock = new TestBlock(testCollector, expectations);
 
   @Test public void addsTestWhenTestBlockInterpolated() throws Exception {
-    ignoring(stack);
     ignoring(expectations);
 
     expectsAddingTestThatIs("test something");
@@ -37,7 +35,6 @@ public class TestBlockTest {
   }
 
   @Test public void addsTestWithEmptyNameWhenTestNameMissing() throws Exception {
-    ignoring(stack);
     ignoring(expectations);
 
     expectsAddingTestThatIs("");
