@@ -2,6 +2,7 @@
 <#setting date_format=format />
 <#setting datetime_format=format />
 <#setting locale='en_US'>
+<#setting time_zone='Asia/Chongqing'>
 
 <#assign foo='2016-09-01 06:03:59'/>
 <#assign date=foo?date />

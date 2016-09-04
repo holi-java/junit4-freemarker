@@ -1,5 +1,6 @@
 <#assign format='yyyy-MM-dd HH:mm:ss' />
 <#setting locale='en_US'>
+<#setting time_zone='Asia/Chongqing'>
 <#setting date_format=format />
 <#setting datetime_format=format />
 
