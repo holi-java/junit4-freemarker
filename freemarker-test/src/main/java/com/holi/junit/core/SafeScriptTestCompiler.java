@@ -1,4 +1,4 @@
-package com.holi.junit;
+package com.holi.junit.core;
 
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.Statement;

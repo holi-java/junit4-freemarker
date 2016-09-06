@@ -1,10 +1,10 @@
 package com.holi.junit.freemarker;
 
-import com.holi.junit.AbstractScriptTest;
-import com.holi.junit.Action;
-import com.holi.junit.Script;
-import com.holi.junit.ScriptTest;
-import com.holi.junit.ScriptTestCompiler;
+import com.holi.junit.core.AbstractScriptTest;
+import com.holi.junit.core.Action;
+import com.holi.junit.core.Script;
+import com.holi.junit.core.ScriptTest;
+import com.holi.junit.core.ScriptTestCompiler;
 import com.holi.junit.freemarker.blocks.Test;
 import com.holi.junit.freemarker.blocks.AssertBlock;
 import com.holi.junit.freemarker.blocks.ExpectationBuilder;

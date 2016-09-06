@@ -1,7 +1,7 @@
 package com.holi.junit.utils;
 
-import com.holi.junit.Action;
-import com.holi.junit.Script;
+import com.holi.junit.core.Action;
+import com.holi.junit.core.Script;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;

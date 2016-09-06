@@ -1,4 +1,4 @@
-package com.holi.junit;
+package com.holi.junit.core;
 
 import java.io.IOException;
 

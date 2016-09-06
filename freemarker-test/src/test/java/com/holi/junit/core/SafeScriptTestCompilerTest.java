@@ -1,5 +1,9 @@
-package com.holi.junit;
+package com.holi.junit.core;
 
+import com.holi.junit.core.SafeScriptTestCompiler;
+import com.holi.junit.core.Script;
+import com.holi.junit.core.ScriptTest;
+import com.holi.junit.core.ScriptTestCompiler;
 import com.holi.junit.utils.StaticScript;
 import com.holi.junit.utils.TestResult;
 import org.jmock.Expectations;

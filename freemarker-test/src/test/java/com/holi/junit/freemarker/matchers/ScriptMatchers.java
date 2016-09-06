@@ -1,6 +1,6 @@
 package com.holi.junit.freemarker.matchers;
 
-import com.holi.junit.Script;
+import com.holi.junit.core.Script;
 import java.io.File;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;

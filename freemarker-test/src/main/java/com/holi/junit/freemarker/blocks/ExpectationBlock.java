@@ -9,8 +9,8 @@ import java.util.Map;
  * Created by selonj on 16-9-3.
  */
 abstract public class ExpectationBlock implements JUnitBlock {
-  private final ExpectationType type;
-  protected ExpectationBuilder expectations;
+  private ExpectationType type;
+  private ExpectationBuilder expectations;
 
   public ExpectationBlock(ExpectationType type, ExpectationBuilder expectations) {
     this.type = type;

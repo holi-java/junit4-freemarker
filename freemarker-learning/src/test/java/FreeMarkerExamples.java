@@ -1,6 +1,6 @@
 import com.holi.junit.scanner.Scanner;
 import com.holi.junit.ScriptRunner;
-import com.holi.junit.ScriptScanner;
+import com.holi.junit.scanner.ScriptScanner;
 import com.holi.junit.scanner.FileSystemScriptScanner;
 import org.junit.runner.RunWith;
 

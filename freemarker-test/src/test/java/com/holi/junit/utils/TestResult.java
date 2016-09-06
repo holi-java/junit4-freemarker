@@ -1,7 +1,7 @@
 package com.holi.junit.utils;
 
 import com.holi.junit.ScriptRunner;
-import com.holi.junit.ScriptTest;
+import com.holi.junit.core.ScriptTest;
 import java.util.ArrayList;
 import java.util.List;
 import org.hamcrest.Matcher;

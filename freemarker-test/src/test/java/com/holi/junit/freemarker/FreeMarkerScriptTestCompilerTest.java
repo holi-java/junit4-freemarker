@@ -1,7 +1,7 @@
 package com.holi.junit.freemarker;
 
-import com.holi.junit.Script;
-import com.holi.junit.ScriptTest;
+import com.holi.junit.core.Script;
+import com.holi.junit.core.ScriptTest;
 import com.holi.junit.utils.TestResult;
 import org.junit.Test;
 

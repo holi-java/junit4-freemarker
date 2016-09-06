@@ -1,4 +1,4 @@
-package com.holi.junit;
+package com.holi.junit.core;
 
 /**
  * Created by selonj on 16-8-31.

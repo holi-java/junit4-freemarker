@@ -6,5 +6,5 @@ import java.io.File;
  * Created by selonj on 16-9-1.
  */
 public interface ScriptMatcher {
-  boolean matches(File script);
+  boolean matches(File file);
 }

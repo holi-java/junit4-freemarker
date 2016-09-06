@@ -1,6 +1,6 @@
 package com.holi.junit.scanner;
 
-import com.holi.junit.Action;
+import com.holi.junit.core.Action;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;

@@ -24,24 +24,24 @@ abstract public class ScriptMatchers {
 
   private static ScriptMatcher match(final ScriptNameMatcher matcher) {
     return new ScriptMatcher() {
-      @Override public boolean matches(File script) {
-        return matcher.matches(script.getName());
+      @Override public boolean matches(File file) {
+        return matcher.matches(file.getName());
       }
     };
   }
 
   public static ScriptMatcher not(final ScriptMatcher matcher) {
     return new ScriptMatcher() {
-      @Override public boolean matches(File script) {
-        return !matcher.matches(script);
+      @Override public boolean matches(File file) {
+        return !matcher.matches(file);
       }
     };
   }
 
   public static ScriptMatcher allOf(final ScriptMatcher... matchers) {
     return new ScriptMatcher() {
-      @Override public boolean matches(File script) {
-        for (ScriptMatcher matcher : matchers) if (!matcher.matches(script)) return false;
+      @Override public boolean matches(File file) {
+        for (ScriptMatcher matcher : matchers) if (!matcher.matches(file)) return false;
         return true;
       }
     };
@@ -49,8 +49,8 @@ abstract public class ScriptMatchers {
 
   public static ScriptMatcher anyOf(final ScriptMatcher... matchers) {
     return new ScriptMatcher() {
-      @Override public boolean matches(File script) {
-        for (ScriptMatcher matcher : matchers) if (matcher.matches(script)) return true;
+      @Override public boolean matches(File file) {
+        for (ScriptMatcher matcher : matchers) if (matcher.matches(file)) return true;
         return false;
       }
     };

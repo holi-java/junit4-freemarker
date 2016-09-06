@@ -1,6 +1,6 @@
 package com.holi.junit.scanner;
 
-import com.holi.junit.Script;
+import com.holi.junit.core.Script;
 import java.io.File;
 import java.util.List;
 import org.junit.Rule;

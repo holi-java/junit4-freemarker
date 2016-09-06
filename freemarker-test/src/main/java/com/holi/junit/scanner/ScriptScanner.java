@@ -1,5 +1,6 @@
-package com.holi.junit;
+package com.holi.junit.scanner;
 
+import com.holi.junit.core.Script;
 import java.util.List;
 import org.junit.runners.model.TestClass;
 
