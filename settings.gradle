@@ -1,4 +1,4 @@
-rootProject.name = 'freemarker'
+rootProject.name = 'junit4-freemarker'
 include 'freemarker-test'
 include 'freemarker-examples'
 include 'freemarker-learning'
