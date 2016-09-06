@@ -1,4 +1,6 @@
 # JUnit4 FreeMarker Test Framework
+[![build status][travis-status-icon]][travis-status-url]
+
 > a test framework for freemarker, you can use this project for learning freemarker step by step.
 
 ## Test Syntax
@@ -33,3 +35,7 @@ public class FreeMarkerRunnerExample {
 ## Test Result
 
 ![test result](etc/screenshot.png)
+
+
+[travis-status-url]:https://travis-ci.org/holi-java/junit4-freemarker
+[travis-status-icon]:https://travis-ci.org/holi-java/junit4-freemarker.svg
